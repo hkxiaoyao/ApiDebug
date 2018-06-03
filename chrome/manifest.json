@@ -1,6 +1,6 @@
 ﻿{
 	"manifest_version": 2,
-    "name": "ApiDebug-接口调试插件",
+    "name": "CrapApi-接口调试工具",
     "version": "1.0.3",
     "description": "Api Debug is a browser plug-in for testing RESTful web services.「ApiDebug可用于http、https等接口调试」",
 	"author":"ihsantang@163.com",
@@ -22,7 +22,7 @@
 	"content_scripts":[
 		{
 			"matches":["http://*/*","https://*/*"],
-			"js":["source/jquery-1.9.1.min.js","source/content_scripts.js"]
+			"js":["source/others/jquery-1.9.1.min.js","source/js/content_scripts.js"]
 		}
 	],"background": {
         "page": "background.html"

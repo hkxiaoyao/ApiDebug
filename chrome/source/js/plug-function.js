@@ -1,47 +1,3 @@
-var websiteUrl = "http://api.crap.cn";
-var paramsTr = "<tr class='last'>";
-paramsTr += "<td><input type='text' class='form-control' data-stage='key'></td>";
-paramsTr += "<td><input type='text' class='form-control' data-stage='value'></td>";
-paramsTr += "<td class='w20'><i class='iconfont'>&#xe63f;</i></td>";
-paramsTr += "</tr>";
-
-var moduleDiv = "<div class='panel panel-info no-radius b0 mt0 left-menu-border-top'>";
-moduleDiv += "      <div class='panel-heading no-radius rel' data-parent='#modules'>";
-moduleDiv += "          <div class='cursor' data-toggle='collapse' data-parent='#modules' href='#panel_ca_moduleId' crap-data='ca_moduleId'>";
-moduleDiv += "              <i class='iconfont color-main f16'>&#xe628;</i>&nbsp;&nbsp;  ca_moduleName";
-moduleDiv += "		        <span class='more'>";
-moduleDiv += "			        <i class='iconfont fr h lh40'>&#xe642;</i>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu rename-module mt0 lh40 fr'crap-data='ca_moduleId'>&#xe618;</i></span>";
-moduleDiv += "	                <span class='t0 h'><i class='iconfont interface-menu delete-module mt0 lh40 fr' crap-data='ca_moduleId'>&#xe60e;</i></span>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu down-module  mt0 lh40 fr' crap-data='ca_moduleId'>&#xe624;</i></span>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu up-module  mt0 lh40 fr' crap-data='ca_moduleId'>&#xe623;</i></span>";
-moduleDiv += "		        </span>";
-moduleDiv += "          </div>";
-moduleDiv += "      </div>";
-moduleDiv += "      <div id='panel_ca_moduleId' class='panel-collapse BGEEE collapse in'>";
-moduleDiv += "          <div class='panel-body b0 p0'>";
-moduleDiv += "              ca_interfaces";
-moduleDiv += "           </div>";
-moduleDiv += "       </div>";
-moduleDiv += "   </div>";
-
-var interfaceDiv = "<div crap-data='ca_interfaceInfo' class='interface pl30 pr20 rel' title='ca_name'>";
-interfaceDiv += "		<i class='iconfont ca_method'>ca_methodIcon</i>&nbsp;&nbsp;ca_name";
-interfaceDiv += "		<span class='more'>";
-interfaceDiv += "			<i class='iconfont fr'>&#xe642;</i>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu delete-interface' crap-data='ca_moduleId|ca_id'>&#xe60e;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu down-interface' crap-data='ca_moduleId|ca_id'>&#xe624;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu up-interface' crap-data='ca_moduleId|ca_id'>&#xe623;</i></span>";
-interfaceDiv += "		</span>";
-interfaceDiv += "	</div>";
-
-// Custom param types
-var customerTypes = ["text/plain", "application/json", "application/xml"];
-var saveInterfaceDiv = "";
-
-var cookieHeader = ""
-var nl2br = false;
-var needCollapse = false;
 var leftEnlarge = true;
 function formatJson(){
     var rowData = originalResponseText;
@@ -262,12 +218,7 @@ function callAjax() {
 
     // 记录历史
     try{
-        var historys;
-        try{
-            historys = $.parseJSON( localStorage['crap-debug-history'] );
-        }catch(e){
-            historys = $.parseJSON( "[]" );
-        }
+        var history = getLocalJson(DATA_HISTORY);
         if(  $.inArray($('input:radio[name="param-type"]:checked').val(), customerTypes) == -1) {
             params = params.replace(/=/g, ":").replace(/&/g,"\n");
         }
@@ -280,22 +231,23 @@ function callAjax() {
             "params" : params, "headers": getHeadersStr().replace(/=/g, ":").replace(/&/g,"\n")};
 
         // 如果已经存在则删除
-        for(var i=0; i<historys.length;i++){
-            if(JSON.stringify(historys[i]) == JSON.stringify(h)){
-                historys.splice(i,1);
+        for(var i=0; i<history.length;i++){
+            if(JSON.stringify(history[i]) == JSON.stringify(h)){
+                history.splice(i,1);
             }
         }
 
-        historys.unshift(h);
+        history.unshift(h);
         // 如果历史记录>20，则删除最后一个
-        if(historys.length > 20){
-            historys.pop();
+        if(history.length > 20){
+            history.pop();
         }
-        localStorage['crap-debug-history'] = JSON.stringify(historys);
+        // 保存历史数据
+        saveLocalData(DATA_HISTORY, JSON.stringify(history))
     }catch(e){
         console.warn(e);
     }
-    getHistorys();
+    daoDrawHistory();
 }
 
 function getRootDomain(url) {
@@ -306,34 +258,10 @@ function getRootDomain(url) {
 }
 
 // 数据存储
-function getHistorys(){
-    var historys;
-    try{
-        historys = $.parseJSON( localStorage['crap-debug-history'] );
-    }catch(e){
-        historys = $.parseJSON( "[]" );
-        console.warn(e);
-    }
-    var historysText = "";
-    for(var i=0 ; i<historys.length; i++){
-        var title =  historys[i].name;
-        if( handerStr(title) == ""){
-            title = handerStr(historys[i].url);
-        }
-        historysText += "<div class='history-div' crap-data='"+JSON.stringify(historys[i])+"'>" + title +"</div>";
-    }
-    $("#historys").html(historysText);
-}
-// 数据存储
 function getLocalModules(){
     // 模块对应的项目ID为 用户ID + "-debug"该项目模块下只有接口调试记录，可以共享，一个用户有且仅有一个调试目录
-    var modules;
-    try{
-        modules = $.parseJSON( localStorage['crap-debug-modules'] )
-    }catch(e){
-        modules = $.parseJSON( "[]" );
-        console.warn(e);
-    }
+    var modules = getLocalJson(DATA_MODULE);
+
     var moduleText = "";
     for(var i=0 ; i<modules.length; i++){
         if(modules[i].status == -1){
@@ -342,13 +270,8 @@ function getLocalModules(){
         var moduleName =  modules[i].moduleName;
         var moduleId = modules[i].moduleId;
         moduleText += moduleDiv.replace(/ca_moduleId/g,moduleId).replace(/ca_moduleName/g,moduleName);
-        var interfaces;
-        try{
-            interfaces = $.parseJSON( localStorage['crap-debug-interface-' + moduleId] );
-        }catch(e){
-            interfaces = $.parseJSON( "[]" );
-            console.warn(e);
-        }
+        var interfaces = getLocalJson(DATA_INTERFACE + moduleId);
+
         var interfaceText = "";
         for(var j=0; j<interfaces.length; j++){
             if(interfaces[j].status == -1){
@@ -371,32 +294,11 @@ function getLocalModules(){
     }
     $("#modules").html( moduleText );
 }
-/**********删除接口*********/
-function deleteInterface(moduleId, id) {
-    var interfaces;
-    try{
-        interfaces = $.parseJSON( localStorage['crap-debug-interface-' + moduleId] )
-    }catch(e){
-        interfaces = $.parseJSON( "[]" );
-        console.warn(e);
-    }
-
-    // 如果已经存在则删除
-    for(var i=0; i<interfaces.length;i++){
-        if(interfaces[i].id == id){
-            interfaces[i].status = -1;
-            break;
-        }
-    }
-    localStorage['crap-debug-interface-' + moduleId] = JSON.stringify(interfaces);
-    refreshSyncIco(0);
-    return true;
-}
 
 function deleteModule(moduleId) {
     var modules;
     try{
-        modules = $.parseJSON( localStorage['crap-debug-modules'] )
+        modules = $.parseJSON( localStorage[DATA_MODULE] )
     }catch(e){
         modules = $.parseJSON( "[]" );
         console.warn(e);
@@ -409,7 +311,7 @@ function deleteModule(moduleId) {
             break;
         }
     }
-    localStorage['crap-debug-modules'] = JSON.stringify(modules);
+    localStorage[DATA_MODULE] = JSON.stringify(modules);
     refreshSyncIco(0);
     return true;
 }
@@ -418,7 +320,7 @@ function deleteModule(moduleId) {
 function renameModule(moduleId,moduleName) {
     var modules;
     try{
-        modules = $.parseJSON( localStorage['crap-debug-modules'] )
+        modules = $.parseJSON( localStorage[DATA_MODULE] )
     }catch(e){
         modules = $.parseJSON( "[]" );
         console.warn(e);
@@ -428,18 +330,17 @@ function renameModule(moduleId,moduleName) {
     for(var i=0; i<modules.length;i++){
         if(modules[i].moduleId == moduleId){
             modules[i].moduleName = moduleName;
-            modules[i].version = modules[i].version + 1;
             break;
         }
     }
-    localStorage['crap-debug-modules'] = JSON.stringify(modules);
+    localStorage[DATA_MODULE] = JSON.stringify(modules);
     refreshSyncIco(0);
     return true;
 }
-function saveModule(moduleName, moduleId,version,status) {
+function saveModule(moduleName, moduleId,status) {
     var modules;
     try {
-        modules = $.parseJSON(localStorage['crap-debug-modules'])
+        modules = $.parseJSON(localStorage[DATA_MODULE])
     } catch (e) {
         modules = $.parseJSON("[]");
         console.warn(e);
@@ -447,57 +348,16 @@ function saveModule(moduleName, moduleId,version,status) {
     // 如果已经存在则删除
     for(var i=0; i<modules.length;i++){
         if(modules[i].moduleId == moduleId) {
-            if (version == 0) {
-                version = modules[i].version + 1;
-            }
             modules.splice(i, 1);
         }
     }
-    var m = {"moduleName": moduleName, "moduleId": moduleId,"version": version,"status":status};
+    var m = {"moduleName": moduleName, "moduleId": moduleId,"status":status};
     modules.unshift(m);
-    localStorage['crap-debug-modules'] = JSON.stringify(modules);
+    localStorage[DATA_MODULE] = JSON.stringify(modules);
     refreshSyncIco(0);
     return modules;
 }
-function saveInterfaceDetail(moduleId, paramType, id, name, method, url, params, headers,version,status) {
-    var interfaces;
-    try {
-        interfaces = $.parseJSON(localStorage['crap-debug-interface-' + moduleId])
-    } catch (e) {
-        interfaces = $.parseJSON("[]");
-        console.warn(e);
-    }
-    var h = {
-        "version": version,
-        "paramType": paramType,
-        "moduleId": moduleId,
-        "id": id,
-        "name": name,
-        "method": method,
-        "url": url,
-        "params": params,
-        "headers": headers,
-        "version":version,
-        "status":status
-    };
 
-    // 如果已经存在则删除
-    for (var i = 0; i < interfaces.length; i++) {
-        if (interfaces[i].id == h.id) {
-            h.interfaceId = interfaces[i].interfaceId;
-            h.status = interfaces[i].status;
-            h.moduleId = interfaces[i].moduleId;
-            if(version == 0) {
-                h.version = interfaces[i].version + 1;
-            }
-            interfaces.splice(i, 1);
-            break;
-        }
-    }
-    interfaces.unshift(h);
-    localStorage['crap-debug-interface-' + moduleId] = JSON.stringify(interfaces);
-    refreshSyncIco(0);
-}
 // save interface and module
 function saveInterface(moduleId, saveAs) {
     if( handerStr($("#url").val()) == ""){
@@ -553,7 +413,7 @@ function saveInterface(moduleId, saveAs) {
 
     var name = $("#save-interface-name").val();
     var url = $("#url").val();
-    saveInterfaceDetail(moduleId, paramType, id, name, method, url, params, headers, 0, 1);
+    daoSaveInterface(moduleId, paramType, id, name, method, url, params, headers, 0, 1);
     closeMyDialog("dialog");
     getLocalModules();
     return true;
@@ -562,13 +422,8 @@ function saveInterface(moduleId, saveAs) {
 function intitSaveInterfaceDialog(){
     $("#save-interface-name").val($("#interface-name").val());
     // 循环获取所有module
-    var modules;
-    try{
-        modules = $.parseJSON( localStorage['crap-debug-modules'] )
-    }catch(e){
-        modules = $.parseJSON( "[]" );
-        console.warn(e);
-    }
+    var modules = getLocalJson(DATA_MODULE);
+
     $("#save-module-id").find("option").remove();
     $("#save-module-id").append("<option value='-1'>--Click to select module/folder--</option>");
     for(var i=0 ; i<modules.length; i++) {
@@ -796,13 +651,13 @@ function refreshSyncIco(isSync){
     var key = "crap-debug-isSync";
     var value = "";
     if(isSync == -1){
-        value = getLoaclData(key);
+        value = getLocalData(key, 'false');
     }else if(isSync == 1){
         value = "true";
-        saveLoaclData(key, value);
+        saveLocalData(key, value);
     }else if(isSync == 0){
         value = "false";
-        saveLoaclData(key, value);
+        saveLocalData(key, value);
     }
     $("#synch-ico").removeClass("GET");
     $("#synch-ico").removeClass("POST");

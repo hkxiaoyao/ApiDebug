@@ -1,13 +1,12 @@
 $(function(){
-    getLocalModules();
-    //getHistorys();
-    //openMyDialog("title",500);
-    refreshSyncIco(-1);
-    $("#synch").click(function(){
+    // getLocalModules();
+
+    // 切换项目
+    $("#change-project").click(function(){
         $("#float").fadeIn(300);
         var modules;
         try{
-            modules = $.parseJSON( localStorage['crap-debug-modules'] )
+            modules = $.parseJSON( localStorage[DATA_MODULE] )
         }catch(e){
             modules = $.parseJSON( "[]" );
             console.warn(e);
@@ -15,10 +14,10 @@ $(function(){
         var moduleText = "[";
         var separator = "";
         for(var i=0 ; i<modules.length; i++){
-            moduleText += separator + "{\"status\":" + modules[i].status +",\"version\":" + modules[i].version +",\"moduleId\":\"" + modules[i].moduleId +"\",\"moduleName\":\"" + modules[i].moduleName + "\"";
+            moduleText += separator + "{\"status\":" + modules[i].status +",\"moduleId\":\"" + modules[i].moduleId +"\",\"moduleName\":\"" + modules[i].moduleName + "\"";
             var debugs;
             try{
-                debugs = $.parseJSON( localStorage['crap-debug-interface-' + modules[i].moduleId] );
+                debugs = $.parseJSON( localStorage[DATA_INTERFACE + modules[i].moduleId] );
             }catch(e){
                 debugs = $.parseJSON( "[]" );
                 console.warn(e);
@@ -29,7 +28,7 @@ $(function(){
         moduleText = moduleText +"]";
         $.ajax({
             type : "POST",
-            url : websiteUrl + "/user/crapDebug/synch.do",
+            url : WEB_SITE_URL + "/user/crapDebug/synch.do",
             async : true,
             data : moduleText,
             beforeSend: function(request) {
@@ -49,11 +48,11 @@ $(function(){
                             if(responseJson[i].status == -1){
                                 continue;
                             }
-                            saveModule(responseJson[i].moduleName, responseJson[i].moduleId, responseJson[i].version, responseJson[i].status);
+                            saveModule(responseJson[i].moduleName, responseJson[i].moduleId, responseJson[i].status);
                             var debugs = responseJson[i].debugs;
                             for(var j=debugs.length-1;j>=0;j--){
-                                saveInterfaceDetail(debugs[j].moduleId, debugs[j].paramType, debugs[j].id, debugs[j].name, debugs[j].method,
-                                    debugs[j].url, debugs[j].params, debugs[j].headers, debugs[j].version, debugs[j].status);
+                                daoSaveInterface(debugs[j].moduleId, debugs[j].paramType, debugs[j].id, debugs[j].name, debugs[j].method,
+                                    debugs[j].url, debugs[j].params, debugs[j].headers,debugs[j].status);
                             }
                         }
 
@@ -70,17 +69,17 @@ $(function(){
             }
         });
     });
-    $("#historys-title").click(function(){
-        $("#historys").removeClass("none");
+    $("#history-title").click(function(){
+        $("#history").removeClass("none");
         $("#modules").addClass("none");
         $("#modules-title").removeClass("bb3");
         $(this).addClass("bb3");
-        getHistorys();
+        daoDrawHistory();
     });
     $("#modules-title").click(function(){
-        $("#historys").addClass("none");
+        $("#history").addClass("none");
         $("#modules").removeClass("none");
-        $("#historys-title").removeClass("bb3");
+        $("#history-title").removeClass("bb3");
         $(this).addClass("bb3");
         getLocalModules();
     });
@@ -115,30 +114,6 @@ $(function(){
         var id = $(this).attr("crap-data");
         closeMyDialog(id);
     });
-    $("#clear-local-data").click(function(){
-        if(!myConfirm("Are you sure you want to delete local data? 「确定要删除本地数据吗」")){
-            return false;
-        }
-        localStorage.clear();
-        getLocalModules();
-        $.ajax({
-            type : "POST",
-            url : websiteUrl+"/back/loginOut.do",
-            async : true,
-            data : "",
-            complete: function(responseData, textStatus){
-                if(textStatus == "error"){
-                    alert("Clear local data success, But LogOut fail!「清除数据本地数据成功，但退出登陆失败！」", 5, "error", 500);
-                }
-                else if(textStatus == "success"){
-                    alert("Clear local data success, LogOut success!「清除数据本地数据成功，退出成功」", 5, "success", 500);
-                }else{
-                    alert("Clear local data success, But LogOut fail!「清除数据本地数据成功，但退出登陆失败！」", 5, "error", 500);
-                }
-                $("#float").fadeOut(300);
-            }
-        });
-    });
 
 
     $("#modules").on("click",".interface", function() {
@@ -170,7 +145,7 @@ $(function(){
 
     });
 
-    $("#historys").on("click","div", function() {
+    $("#history").on("click","div", function() {
         var urlInfo = $.parseJSON( $(this).attr("crap-data") );
         $("#url").val(urlInfo.url);
         $("#interface-id").val("-1");
@@ -234,21 +209,21 @@ $(function(){
             return false;
         }
         var ids = $(this).attr("crap-data").split("|");
-		deleteInterface(ids[0],ids[1]);
+        daoDeleteInterface(ids[0],ids[1]);
 		getLocalModules();	
 		return false;// 不在传递至父容器
     });
     /*******上移接口**********/
     $("#modules").on("click",".up-interface", function() {
         var ids = $(this).attr("crap-data").split("|");
-        upInterface(ids[0],ids[1]);
+        daoUpInterface(ids[0],ids[1]);
         getLocalModules();
         return false;// 不在传递至父容器
     });
     /*******下移接口**********/
     $("#modules").on("click",".down-interface", function() {
         var ids = $(this).attr("crap-data").split("|");
-        downInterface(ids[0],ids[1]);
+        daoDownInterface(ids[0],ids[1]);
         getLocalModules();
         return false;// 不在传递至父容器
     });

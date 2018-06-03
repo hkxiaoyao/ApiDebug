@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-	<link href="source/base.css" rel="stylesheet" type="text/css" />
-	<link href="source/bootstrap.css" rel="stylesheet" type="text/css" />
-	<link href="source/plug.css" rel="stylesheet" type="text/css" />
-	<link href="source/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-	<link href="source/jquery.jsonview.css" rel="stylesheet" type="text/css" />
+	<link href="source/css/base.css" rel="stylesheet" type="text/css" />
+	<link href="source/others/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="source/css/plug.css" rel="stylesheet" type="text/css" />
+	<link href="source/others/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+	<link href="source/others/jquery.jsonview.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<div class="h40 CFFF pl20 w shadow fixed z10" style="background:#233050;">
@@ -19,11 +19,24 @@
 		</button>
 		<!--<a href="more.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">More...</a>-->
 		<a href="http://api.crap.cn/loginOrRegister.do#/login" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">Login</a>
-		<a id="clear-local-data" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">ClearLocalData </a>
 		<a href="json.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">Json</a>
 		<a href="debug.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">NewTab</a>
 		<a id="new-interface" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">NewInterface</a>
-		<a id="synch" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5"><i class="iconfont" id="synch-ico">&#xe611;</i> Synch</a>
+
+		<div class="btn-group fr mr10 mt5">
+			<button type="button" class="btn btn-menu btn-sm" id="change-project">
+                <i class="iconfont pl10 mt-3" id="synch-ico">&#xe611;</i>
+                <span id="default-project-name">请选着项目</span>
+            </button>
+			<button type="button" class="btn btn-menu btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="caret"></span>
+				<span class="sr-only">项目列表</span>
+			</button>
+			<ul id="project-list" class="dropdown-menu min-w80">
+				<li><a href="javascript:void(0)" class="pl10 pr10">切换项目</a></li>
+                <li role="separator" class="divider pl10 pr10"></li>
+			</ul>
+		</div>
 
 	</div>
 
@@ -34,10 +47,10 @@
             <!--接口请求头、参数等切换标签-->
             <div class="bb1 h40 mt40 f12 C555 pt10">
 				<div class="bb3 fl w-50 tc h30 cursor" id="modules-title" title="Module">Mod</div>
-				<div class="fl w-50 tc h30 cursor" id="historys-title" title="History">His</div>
+				<div class="fl w-50 tc h30 cursor" id="history-title" title="History">His</div>
             </div>
 			<!--历史记录 -->
-			<div id="historys" class="none w"></div>
+			<div id="history" class="none w"></div>
 			<!--模块-->
 			<div id="modules" class="w panel-group mb0" role="tablist"></div>
         </div>
@@ -47,18 +60,7 @@
 
 			<!--顶部空白-->
 			<div class="BGF9 h40 w"></div>
-			<!--标签
-			<div class="w h32 bb1 BGF9 f12 lh30">
-				<div class="fl ml10 pl10 pr20 C555 top-radius h32 w150 b1 bb0 rel BGF5  of-h">
-						<i class="iconfont CAAA f12 abs pos-t5 pos-r5 cursor" onclick="closeMyDialog('myDialog')">&#xe615;</i>
-						选人新接口
 
-				</div>
-				<div class="fl ml10 pl10 pr20 CAAA top-radius h32 w150 b1 bb0 rel BGF9 of-h mt-1">
-						<i class="iconfont CAAA f12 abs pos-t5 pos-r5 cursor" onclick="closeMyDialog('myDialog')">&#xe615;</i>
-						人新接口
-				</div>
-			</div>-->
 			<div class="cb"></div>
 
 			<!--参数、头、相应结果-->
@@ -88,17 +90,13 @@
 							</td>
 							<td class="tr w100">
 								<div class="btn-group w">
-								  <button type="button" class="btn btn-main" id="save-interface">Save</button>
+								  <button type="button" class="btn btn-main" id="save-interface">保存</button>
 								  <button type="button" class="btn btn-main dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<span class="caret"></span>
 									<span class="sr-only">Toggle Dropdown</span>
 								  </button>
 								  <ul class="dropdown-menu min-w80">
-									<li><a id="save-as-interface" class="pl10 pr10 cursor">Save As</a></li>
-									<!--<li><a href="#" class="pl10 pr10">Another</a></li>
-									<li><a href="#" class="pl10 pr10">Something</a></li>
-									<li role="separator" class="divider pl10 pr10"></li>
-									<li><a href="#" class="pl10 pr10">Separated</a></li>-->
+									<li><a id="save-as-interface" class="pl10 pr10 cursor">另存为</a></li>
 								  </ul>
 								</div>
 							</td>
@@ -337,16 +335,20 @@
 		<i class="iconfont i-close CFFF fb f16 close-dialog" crap-data="dialog2">&#xe615;</i>
 	</div>
 
-	<script src="source/jquery-1.9.1.min.js"></script>
-	<script src="source/bootstrap.js"></script>
-	<script src="source/base-dao.js"></script>
-	<script src="source/interface-dao.js"></script>
-	<script src="source/module-dao.js"></script>
-	<script src="source/plug-function.js"></script>
-	<script src="source/crapApi.js"></script>
-	<script src="source/jquery.jsonview.js"></script>
-	<script src="source/json.js"></script>
-	<script type="text/javascript" src="source/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="source/others/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="source/others/bootstrap.js"></script>
+	<script type="text/javascript" src="source/js/constant.js"></script>
+	<script type="text/javascript" src="source/js/base-dao.js"></script>
+	<script type="text/javascript" src="source/js/history-dao.js"></script>
+	<script type="text/javascript" src="source/js/interface-dao.js"></script>
+	<script type="text/javascript" src="source/js/module-dao.js"></script>
+	<script type="text/javascript" src="source/js/plug-function.js"></script>
+	<script type="text/javascript" src="source/js/crapApi.js"></script>
+	<script type="text/javascript" src="source/others/jquery.jsonview.js"></script>
+	<script type="text/javascript" src="source/js/json.js"></script>
+	<script type="text/javascript" src="source/others/jquery-ui.min.js"></script>
+
+	<script type="text/javascript" src="source/js/debug.js"></script>
 	<img style="display: none" src="http://debug-acess-statistics.oss-cn-qingdao.aliyuncs.com/ca.gif">
 </body>
 </html>

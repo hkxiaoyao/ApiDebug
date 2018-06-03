@@ -1,10 +1,10 @@
 @font-face {
     font-family: "iconfont";
-    src: url('iconfont.eot'); /* IE9*/
-    src: url('iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('iconfont.woff') format('woff'), /* chrome, firefox */
-    url('iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+    src: url('../others/iconfont.eot'); /* IE9*/
+    src: url('../others/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../others/iconfont.woff') format('woff'), /* chrome, firefox */
+    url('../others/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../others/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -31,7 +31,6 @@ input{
     -moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;-khtml-border-radius: 2px;
     border: 0px;
     background: rgba(255, 255, 255, 0.3);
-    font-weight:bold;
     color: #ffffff;
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
@@ -39,7 +38,6 @@ input{
 }
 .btn-menu:hover {
     background: rgba(255, 255, 255, 0.5);
-    font-weight:bold;
     color: #6f5499;
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
@@ -111,7 +109,7 @@ input{
     left: 0;
     bottom: -1px;
 }
-#historys div, .panel-body div {
+#history div, .panel-body div {
     border-bottom:1px solid #dfdfdf;
     color:#999999;
     height:36px;

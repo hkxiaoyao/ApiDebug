@@ -5,7 +5,6 @@ function upModule(moduleId) {
         if(modules[i].moduleId == moduleId){
             if(i > 0) {
                 var module = modules[i];
-                module.version = module.version + 1;
                 modules.splice(i,1);
                 modules.splice(i-1, 0, module);
             }
@@ -23,7 +22,6 @@ function downModule(moduleId) {
         if(modules[i].moduleId == moduleId){
             if(i < modules.length-1) {
                 var module = modules[i];
-                module.version = module.version + 1;
                 modules.splice(i,1);
                 modules.splice(i+1, 0, module);
             }
@@ -37,7 +35,7 @@ function downModule(moduleId) {
 function getAllmodules(){
     var modules;
     try {
-        modules = $.parseJSON(localStorage['crap-debug-modules'])
+        modules = $.parseJSON(localStorage[DATA_MODULE])
     } catch (e) {
         modules = $.parseJSON("[]");
         console.warn(e);
@@ -45,5 +43,5 @@ function getAllmodules(){
     return modules;
 }
 function saveAllModules(modules){
-    localStorage['crap-debug-modules'] = JSON.stringify(modules);
+    localStorage[DATA_MODULE] = JSON.stringify(modules);
 }
