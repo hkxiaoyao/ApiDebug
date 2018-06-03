@@ -1,74 +1,6 @@
 $(function(){
-    // getLocalModules();
+    // drawModule();
 
-    // 切换项目
-    $("#change-project").click(function(){
-        $("#float").fadeIn(300);
-        var modules;
-        try{
-            modules = $.parseJSON( localStorage[DATA_MODULE] )
-        }catch(e){
-            modules = $.parseJSON( "[]" );
-            console.warn(e);
-        }
-        var moduleText = "[";
-        var separator = "";
-        for(var i=0 ; i<modules.length; i++){
-            moduleText += separator + "{\"status\":" + modules[i].status +",\"moduleId\":\"" + modules[i].moduleId +"\",\"moduleName\":\"" + modules[i].moduleName + "\"";
-            var debugs;
-            try{
-                debugs = $.parseJSON( localStorage[DATA_INTERFACE + modules[i].moduleId] );
-            }catch(e){
-                debugs = $.parseJSON( "[]" );
-                console.warn(e);
-            }
-            moduleText += ",\"debugs\":" + JSON.stringify(debugs) +"}";
-            separator = ",";
-        }
-        moduleText = moduleText +"]";
-        $.ajax({
-            type : "POST",
-            url : WEB_SITE_URL + "/user/crapDebug/synch.do",
-            async : true,
-            data : moduleText,
-            beforeSend: function(request) {
-                request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            },
-            complete: function(responseData, textStatus){
-                if(textStatus == "error"){
-                    alert("Status:" + responseData.status + "\nStatusText:" + responseData.statusText +"\nTextStatus: " + textStatus);
-                }
-                else if(textStatus == "success"){
-                    localStorage.clear();
-                    var responseJson = $.parseJSON(responseData.responseText);
-                    if( responseJson.success == 1){
-                        responseJson = responseJson.data;
-                        // 存储服务器同步的数据
-                        for(var i=responseJson.length-1;i>=0; i--){
-                            if(responseJson[i].status == -1){
-                                continue;
-                            }
-                            saveModule(responseJson[i].moduleName, responseJson[i].moduleId, responseJson[i].status);
-                            var debugs = responseJson[i].debugs;
-                            for(var j=debugs.length-1;j>=0;j--){
-                                daoSaveInterface(debugs[j].moduleId, debugs[j].paramType, debugs[j].id, debugs[j].name, debugs[j].method,
-                                    debugs[j].url, debugs[j].params, debugs[j].headers,debugs[j].status);
-                            }
-                        }
-
-                        getLocalModules();
-                        alert("success!",3,"success");
-                        refreshSyncIco(1);
-                    }else{
-                        alert(responseJson.error.message,5,"error");
-                    }
-                }else{
-                    alert("Status:" + responseData.status + "\nStatusText:" + responseData.statusText +"\nTextStatus: " + textStatus);
-                }
-                $("#float").fadeOut(300);
-            }
-        });
-    });
     $("#history-title").click(function(){
         $("#history").removeClass("none");
         $("#modules").addClass("none");
@@ -81,7 +13,6 @@ $(function(){
         $("#modules").removeClass("none");
         $("#history-title").removeClass("bb3");
         $(this).addClass("bb3");
-        getLocalModules();
     });
 
     var saveAs = true;
@@ -198,7 +129,6 @@ $(function(){
            return false;
        }
         renameModule( $("#rename-module-id").val(), $("#rename-module-name").val());
-        getLocalModules();
         closeMyDialog("dialog2");
     });
 
@@ -210,21 +140,18 @@ $(function(){
         }
         var ids = $(this).attr("crap-data").split("|");
         daoDeleteInterface(ids[0],ids[1]);
-		getLocalModules();	
 		return false;// 不在传递至父容器
     });
     /*******上移接口**********/
     $("#modules").on("click",".up-interface", function() {
         var ids = $(this).attr("crap-data").split("|");
         daoUpInterface(ids[0],ids[1]);
-        getLocalModules();
         return false;// 不在传递至父容器
     });
     /*******下移接口**********/
     $("#modules").on("click",".down-interface", function() {
         var ids = $(this).attr("crap-data").split("|");
         daoDownInterface(ids[0],ids[1]);
-        getLocalModules();
         return false;// 不在传递至父容器
     });
 
@@ -235,21 +162,18 @@ $(function(){
         }
         var moduleId = $(this).attr("crap-data");
         deleteModule(moduleId);
-        getLocalModules();
         return false;// 不在传递至父容器
     });
     /*******上移**********/
     $("#modules").on("click",".up-module", function() {
         var moduleId = $(this).attr("crap-data");
         upModule(moduleId);
-        getLocalModules();
         return false;// 不在传递至父容器
     });
     /*******下移**********/
     $("#modules").on("click",".down-module", function() {
         var moduleId = $(this).attr("crap-data");
         downModule(moduleId);
-        getLocalModules();
         return false;// 不在传递至父容器
     });
 

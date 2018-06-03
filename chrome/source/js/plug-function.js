@@ -257,43 +257,6 @@ function getRootDomain(url) {
     return hosts.length ==2 ? a.host : hosts[hosts.length-2]+"."+hosts[hosts.length-1];
 }
 
-// 数据存储
-function getLocalModules(){
-    // 模块对应的项目ID为 用户ID + "-debug"该项目模块下只有接口调试记录，可以共享，一个用户有且仅有一个调试目录
-    var modules = getLocalJson(DATA_MODULE);
-
-    var moduleText = "";
-    for(var i=0 ; i<modules.length; i++){
-        if(modules[i].status == -1){
-            continue;
-        }
-        var moduleName =  modules[i].moduleName;
-        var moduleId = modules[i].moduleId;
-        moduleText += moduleDiv.replace(/ca_moduleId/g,moduleId).replace(/ca_moduleName/g,moduleName);
-        var interfaces = getLocalJson(DATA_INTERFACE + moduleId);
-
-        var interfaceText = "";
-        for(var j=0; j<interfaces.length; j++){
-            if(interfaces[j].status == -1){
-                continue;
-            }
-             interfaceText += interfaceDiv.replace(/ca_interfaceInfo/g,JSON.stringify(interfaces[j]))
-								.replace(/ca_name/g,interfaces[j].name)
-								.replace(/ca_id/g,interfaces[j].id)
-								.replace(/ca_moduleId/g,interfaces[j].moduleId);
-								
-             if(interfaces[j].method == "GET"){
-                 interfaceText = interfaceText.replace("ca_methodIcon","&#xe645;");
-                 interfaceText = interfaceText.replace("ca_method","GET");
-             }else{
-                 interfaceText = interfaceText.replace("ca_methodIcon","&#xe6c4;");
-                 interfaceText = interfaceText.replace("ca_method","POST");
-             }
-        }
-        moduleText = moduleText.replace("ca_interfaces", interfaceText);
-    }
-    $("#modules").html( moduleText );
-}
 
 function deleteModule(moduleId) {
     var modules;
@@ -415,7 +378,6 @@ function saveInterface(moduleId, saveAs) {
     var url = $("#url").val();
     daoSaveInterface(moduleId, paramType, id, name, method, url, params, headers, 0, 1);
     closeMyDialog("dialog");
-    getLocalModules();
     return true;
 }
 

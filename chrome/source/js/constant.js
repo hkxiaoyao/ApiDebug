@@ -47,7 +47,7 @@ var customerTypes = ["text/plain", "application/json", "application/xml"];
 
 
 
-// 程序常量
+/*************** 本地数据 ****************/
 var BASE_PRE = "crap_debug_v1_"
 var DATA_HISTORY = BASE_PRE + "history"; // 历史记录列表
 var DATA_MODULE = BASE_PRE + "module"; // 模块列表
@@ -55,9 +55,15 @@ var DATA_INTERFACE = BASE_PRE + "interface_"; // 接口列表
 var DATA_DEF_PROJECT_ID = BASE_PRE + "default_project_id"; // 默认项目ID
 var DATA_DEF_PROJECT_NAME = BASE_PRE + "default_project_name"; // 默认项目名称
 
-// 服务器接口地址
+/*********** 服务器接口地址 **************/
 var WEB_SITE_URL = "http://api.crap.cn";
 var MY_PROJECT_URL = WEB_SITE_URL + "/user/project/list.do";
+var MY_MODULE_URL = WEB_SITE_URL + "/user/module/list.do";
 
-// id
+/************** html id *****************/
 var ID_DEFAULT_PROJECT_NAME = "default-project-name";
+
+/************* attr ***************/
+var BASE_ATTR_PRE = "crap-data-";
+var ATTR_PROJECT_ID = BASE_ATTR_PRE + "project-id";
+var ATTR_PROJECT_NAME = BASE_ATTR_PRE + "project-name";
