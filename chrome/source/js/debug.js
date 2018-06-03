@@ -64,6 +64,7 @@ function drawModule(moduleArray){
                 .replace(/ca_id/g,interface.id)
                 .replace(/ca_moduleId/g,interface.moduleId);
 
+            // TODO 多种请求方式
             if(interface.method.indexOf("GET") >= 0){
                 interfaceText = interfaceText.replace("ca_methodIcon","&#xe645;");
                 interfaceText = interfaceText.replace("ca_method","GET");
