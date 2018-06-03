@@ -48,11 +48,12 @@ $(function(){
 
 
     $("#modules").on("click",".interface", function() {
-        var urlInfo = $.parseJSON( $(this).attr("crap-data") );
-        $("#url").val(urlInfo.url);
+        var interfaceId = $(this).attr("crap-data");
+        var urlInfo = interfacesMap[interfaceId] ;
+        $("#url").val(urlInfo.fullUrl);
         $("#interface-id").val(urlInfo.id);
         $("#module-id").val(urlInfo.moduleId);
-        $("#interface-name").val(handerStr(urlInfo.name));
+        $("#interface-name").val(handerStr(urlInfo.interfaceName));
         $("#headers-bulk").val(urlInfo.headers);
         $("#method").val(urlInfo.method);
         $("#method").change();

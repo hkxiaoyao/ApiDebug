@@ -46,11 +46,12 @@ function saveLocalJson(key,value){
 }
 
 /********* http *******/
-function httpPost(url, myData, callBack){
+function httpPost(url, myData, myAsync, callBack){
+    var result;
     $.ajax({
         type: "POST",
         url: url,
-        async: true,
+        async: myAsync,
         data: myData,
         beforeSend: function (request) {
             // 通过body传递参数时后需要设置
@@ -59,18 +60,24 @@ function httpPost(url, myData, callBack){
         complete: function (responseData, textStatus) {
             if (textStatus == "error") {
                 alert("网络异常，Status:" + responseData.status + "\nStatusText:" + responseData.statusText + "\nTextStatus: " + textStatus, 5, "error");
-                return $.parseJSON("{\"success\":0,\"data\":null,\"error\":{\"code\":\"未知错误\",\"message\":网络异常\"\"}}")
+                result = $.parseJSON("{\"success\":0,\"data\":null,\"error\":{\"code\":\"未知错误\",\"message\":网络异常\"\"}}")
             }
 
             else if (textStatus == "success") {
                 var responseJson = $.parseJSON(responseData.responseText);
+                result = responseJson;
                 if (responseJson.success == 1) {
-                    callBack(responseJson);
+                    if (callBack) {
+                        callBack(responseJson);
+                    }
                 }else{
                     alert("错误码：" + responseJson.error.code + "，错误信息" + responseJson.error.message, 5, "error");
-                    callBack(responseJson);
+                    if (callBack) {
+                        callBack(responseJson);
+                    }
                 }
             }
         }
     });
+    return result;
 }

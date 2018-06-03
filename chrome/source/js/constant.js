@@ -27,7 +27,7 @@ moduleDiv += "           </div>";
 moduleDiv += "       </div>";
 moduleDiv += "   </div>";
 
-var interfaceDiv = "<div crap-data='ca_interfaceInfo' class='interface pl30 pr20 rel' title='ca_name'>";
+var interfaceDiv = "<div crap-data='ca_id' class='interface pl30 pr20 rel' title='ca_name'>";
 interfaceDiv += "		<i class='iconfont ca_method'>ca_methodIcon</i>&nbsp;&nbsp;ca_name";
 interfaceDiv += "		<span class='more'>";
 interfaceDiv += "			<i class='iconfont fr'>&#xe642;</i>";
@@ -59,6 +59,8 @@ var DATA_DEF_PROJECT_NAME = BASE_PRE + "default_project_name"; // 默认项目�
 var WEB_SITE_URL = "http://api.crap.cn";
 var MY_PROJECT_URL = WEB_SITE_URL + "/user/project/list.do";
 var MY_MODULE_URL = WEB_SITE_URL + "/user/module/list.do";
+var MY_INTERFACE_URL = WEB_SITE_URL + "/user/interface/list.do";
+
 
 /************** html id *****************/
 var ID_DEFAULT_PROJECT_NAME = "default-project-name";
