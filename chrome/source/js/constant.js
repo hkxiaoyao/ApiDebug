@@ -1,6 +1,4 @@
 // 常量
-
-// 服务器地址
 var paramsTr = "<tr class='last'>";
 paramsTr += "<td><input type='text' class='form-control' data-stage='key'></td>";
 paramsTr += "<td><input type='text' class='form-control' data-stage='value'></td>";
@@ -56,14 +54,23 @@ var DATA_DEF_PROJECT_ID = BASE_PRE + "default_project_id"; // 默认项目ID
 var DATA_DEF_PROJECT_NAME = BASE_PRE + "default_project_name"; // 默认项目名称
 
 /*********** 服务器接口地址 **************/
-var WEB_SITE_URL = "http://api.crap.cn";
+var WEB_SITE_URL = "http://localhost:8080/api";
 var MY_PROJECT_URL = WEB_SITE_URL + "/user/project/list.do";
 var MY_MODULE_URL = WEB_SITE_URL + "/user/module/list.do";
 var MY_INTERFACE_URL = WEB_SITE_URL + "/user/interface/list.do";
+var INIT_URL = WEB_SITE_URL + "/back/init.do";
+var LOGOUT_URL = WEB_SITE_URL + "/back/loginOut.do";
 
 
 /************** html id *****************/
-var ID_DEFAULT_PROJECT_NAME = "default-project-name";
+var ID_DEF_PROJECT_NAME = "id-def-project-name";
+var ID_USER_NAME = "id-user-name";
+var ID_PROJECT_LIST = "id-project-list";
+var ID_LOGIN = "id-login";
+var ID_LOGOUT = "id-logout";
+var ID_FLOAT = "id-float";
+var ID_TIP = "id-tip";
+
 
 /************* attr ***************/
 var BASE_ATTR_PRE = "crap-data-";

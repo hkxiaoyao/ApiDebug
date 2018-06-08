@@ -430,7 +430,7 @@ function alert(tipMessage, tipTime, isSuccess, width){
 	tipTime = tipTime?tipTime:2;
 	if(tipMessage!=""){
 		if(tipMessage!="false"&&tipMessage!=false) {
-            $("#tip-div").html(tipMessage);
+            $("#alert-div").html(tipMessage);
             if (tipMessage.length > 35){
                 width = 300;
             }
@@ -442,12 +442,37 @@ function alert(tipMessage, tipTime, isSuccess, width){
             }
         }
 	}
-	$("#tip-div").css("left",  ($(window).width()/2 - width/2) +"px").css("width", width+"px");
-    $("#tip-div").removeClass("text-success");
-    $("#tip-div").removeClass("text-error");
-    $("#tip-div").addClass("text-" + isSuccess);
+	$("#alert-div").css("left",  ($(window).width()/2 - width/2) +"px").css("width", width+"px");
+    $("#alert-div").removeClass("text-success");
+    $("#alert-div").removeClass("text-error");
+    $("#alert-div").addClass("text-" + isSuccess);
 
-	showMessage("tip-div",tipMessage,false,tipTime);
+	showMessage("alert-div",tipMessage,false,tipTime);
+}
+
+/************************覆盖弹框**************************************/
+function tip(response, tipTime){
+    var isSuccess = response.success;
+
+    var tipMessage = "";
+    if (isSuccess == 1 || isSuccess == "success"){
+        isSuccess = "success";
+        tipMessage = "操作成功！";
+    }else {
+        isSuccess = "error";
+        tipMessage = "错误信息:" + response.error.message;
+    }
+    tipTime = tipTime?tipTime:2;
+    if(tipMessage!=""){
+        if(tipMessage!="false"&&tipMessage!=false) {
+            $("#" + ID_TIP).html(tipMessage);
+        }
+    }
+
+    $("#" + ID_TIP).removeClass("text-success");
+    $("#" + ID_TIP).removeClass("text-error");
+    $("#" + ID_TIP).addClass("text-" + isSuccess);
+    showMessage(ID_TIP,tipMessage,false,tipTime);
 }
 function myConfirm(message){
     var begin = Date.now();

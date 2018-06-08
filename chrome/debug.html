@@ -14,29 +14,34 @@
 		<a href="http://api.crap.cn/index.do#/web/article/detail/web/PAGE/APIDEBUG" target="_blank">
 			<img src="http://api.crap.cn/resources/images/logo.png" class="h30 mt4 ml10 fl">
 		</a>
-		<button class="btn btn-menu btn-sm fl mr10 mt5 cursor ml20" id="left-enlarge">
-			Left &nbsp;<div class="fr mt-1"><i class="iconfont">&#xe605;</i></div>
+		<button class="btn btn-menu btn-sm fl mr10 cursor ml20" id="left-enlarge">
+			菜单 &nbsp;<div class="fr mt-1"><i class="iconfont">&#xe605;</i></div>
 		</button>
-		<!--<a href="more.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">More...</a>-->
-		<a href="http://api.crap.cn/loginOrRegister.do#/login" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">Login</a>
-		<a href="json.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">Json</a>
-		<a href="debug.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">NewTab</a>
-		<a id="new-interface" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">NewInterface</a>
 
-		<div class="btn-group fr mr10 mt5">
+        <div class="fl mr10 mt5 ml20 ndis f12 pt5 adorn-color" id="id-user-name"></div>
+
+		<!--<a href="more.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">More...</a>-->
+        <a id="id-login" href="http://api.crap.cn/loginOrRegister.do#/login" target="_blank" class="btn btn-menu btn-sm fr mr10">登录</a>
+        <a id="id-logout" href="#" class="btn btn-menu btn-sm fr mr10">注销</a>
+		<a href="json.html" target="_blank" class="btn btn-menu btn-sm fr mr10">Json工具</a>
+		<a href="debug.html" target="_blank" class="btn btn-menu btn-sm fr mr10">打开新窗口</a>
+		<a id="new-interface" target="_blank" class="btn btn-menu btn-sm fr mr10">创建新接口</a>
+
+		<div class="btn-group fr mr10">
 			<button type="button" class="btn btn-menu btn-sm" id="refresh-module">
                 <i class="iconfont pl10 mt-3" id="synch-ico">&#xe611;</i>
-                <span id="default-project-name">请选着项目</span>
+                <span id="id-def-project-name">请选着项目</span>
             </button>
 			<button type="button" class="btn btn-menu btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<span class="caret"></span>
 				<span class="sr-only">项目列表</span>
 			</button>
-			<ul id="project-list" class="dropdown-menu min-w80">
+			<ul id="id-project-list" class="dropdown-menu min-w80">
 				<li><a href="#" class="pl10 pr10">切换项目</a></li>
                 <li role="separator" class="divider pl10 pr10"></li>
 			</ul>
 		</div>
+		<div class="fr btn btn-menu btn-sm mr10 pt1 pb1" style="display: none;" id="id-tip">ddd</div>
 
 	</div>
 
@@ -46,8 +51,8 @@
 		<div id="left" class="BGEEE h m0 fl p0 shadow ofy-a" style="width:18%;">
             <!--接口请求头、参数等切换标签-->
             <div class="bb1 h40 mt40 f12 C555 pt10">
-				<div class="bb3 fl w-50 tc h30 cursor" id="modules-title" title="Module">Mod</div>
-				<div class="fl w-50 tc h30 cursor" id="history-title" title="History">His</div>
+				<div class="bb3 fl w-50 tc h30 cursor" id="modules-title" title="Module">模块</div>
+				<div class="fl w-50 tc h30 cursor" id="history-title" title="History">历史</div>
             </div>
 			<!--历史记录 -->
 			<div id="history" class="none w"></div>
@@ -67,7 +72,7 @@
 			<div class="w h mt10 rel">
 				<!--接口标题-->
 				<div class="mt10 ml10 fb bl3 f14 pl10 tl pr10">
-					<input type="text" class="form-control b0 r2 BGF5 p3 h27" id="interface-name" placeholder="Click input interface name"/>
+					<input type="text" class="form-control b0 r2 BGF5 p3 h27" id="interface-name" placeholder="请输入接口名"/>
 					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="interface-id" value="-1"/>
 					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="module-id" value="-1"/>
 				</div>
@@ -269,7 +274,7 @@
 		</div>
 	</div>
 	
-	<div id="float" class="folat">
+	<div id="id-float" class="folat">
 		<div class="sk-wave">
 			<div class="sk-rect sk-rect1"></div>
 			<div class="sk-rect sk-rect2"></div>
@@ -278,7 +283,7 @@
 			<div class="sk-rect sk-rect5"></div>
 		</div>
 	</div>
-	<div class="tip-div" id="tip-div"></div>
+	<div class="alert-div" id="alert-div"></div>
 	<div id="fade" class="folat"></div>
 	<div id="dialog" class="look-up shadow">
 		<div id="dialog-title" class="CFFF f16 shadow dialog-title">
@@ -286,9 +291,9 @@
 		<div id="dialog-content" class="look-up-content b0 f12 tl p30 BGFFF C555">
 			<table class="table table-bordered">
 				<tr>
-					<td>Interface name</td>
+					<td>接口名</td>
 					<td>
-						<input class="form-control" id="save-interface-name" placeholder="Click input interface name"/>
+						<input class="form-control" id="save-interface-name" placeholder="请输入接口名称"/>
 					</td>
 				</tr>
 				<tr>
@@ -338,9 +343,11 @@
 	<script type="text/javascript" src="source/others/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="source/others/bootstrap.js"></script>
 	<script type="text/javascript" src="source/js/constant.js"></script>
-	<script type="text/javascript" src="source/js/base-dao.js"></script>
+	<script type="text/javascript" src="source/js/util.js"></script>
 	<script type="text/javascript" src="source/js/history-dao.js"></script>
 	<script type="text/javascript" src="source/js/interface-dao.js"></script>
+	<script type="text/javascript" src="source/js/base-dao.js"></script>
+	<script type="text/javascript" src="source/js/project-dao.js"></script>
 	<script type="text/javascript" src="source/js/module-dao.js"></script>
 	<script type="text/javascript" src="source/js/plug-function.js"></script>
 	<script type="text/javascript" src="source/js/crapApi.js"></script>

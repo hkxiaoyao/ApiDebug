@@ -1,5 +1,5 @@
 $(function(){
-    // drawModule();
+    // drawModuleDAO();
 
     $("#history-title").click(function(){
         $("#history").removeClass("none");

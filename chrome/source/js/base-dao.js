@@ -1,83 +1,25 @@
-/***********获取本地存储的数据**********/
-function getLocalData(key, def){
-    try{
-        var value = localStorage[key];
-        if(value){
-            return value;
-        }
-        if (def) {
-            return def;
-        }else{
-            return "[]";
-        }
-    }catch(e){
-        console.error(e);
-        if (def) {
-            return def;
-        }else{
-            return "[]";
-        }
+function getLoginInfoDAO(callBack) {
+    httpPost(INIT_URL, {}, true, callBack);
+}
+
+function drawLoginInfoDAO(response) {
+    if (response.success == 1){
+        setHtml(ID_USER_NAME, "Hi, " + response.data.sessionAdminName + " !");
+        showDiv(ID_USER_NAME);
+        hidenDiv(ID_LOGIN);
+        showDiv(ID_LOGOUT);
     }
 }
 
-function getLocalJson(key, def) {
-    return $.parseJSON( getLocalData(key, def) );
-}
+$("#" + ID_LOGOUT).click(function(){
+    httpPost(LOGOUT_URL, {}, true, drawLogoutDAO);
+});
 
-/*********存储数据至本地***********/
-function saveLocalData(key,value){
-    try{
-        localStorage[key] = value;
-        return true;
-    }catch(e){
-        console.error(e);
-        return false;
+function drawLogoutDAO(response) {
+    tip(response, 5);
+    if (response.success == 1){
+        hidenDiv(ID_USER_NAME);
+        showDiv(ID_LOGIN);
+        hidenDiv(ID_LOGOUT);
     }
-}
-
-function saveLocalJson(key,value){
-    try{
-        localStorage[key] = JSON.stringify(value);
-        return true;
-    }catch(e){
-        console.error(e);
-        return false;
-    }
-}
-
-/********* http *******/
-function httpPost(url, myData, myAsync, callBack){
-    var result;
-    $.ajax({
-        type: "POST",
-        url: url,
-        async: myAsync,
-        data: myData,
-        beforeSend: function (request) {
-            // 通过body传递参数时后需要设置
-            //request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        },
-        complete: function (responseData, textStatus) {
-            if (textStatus == "error") {
-                alert("网络异常，Status:" + responseData.status + "\nStatusText:" + responseData.statusText + "\nTextStatus: " + textStatus, 5, "error");
-                result = $.parseJSON("{\"success\":0,\"data\":null,\"error\":{\"code\":\"未知错误\",\"message\":网络异常\"\"}}")
-            }
-
-            else if (textStatus == "success") {
-                var responseJson = $.parseJSON(responseData.responseText);
-                result = responseJson;
-                if (responseJson.success == 1) {
-                    if (callBack) {
-                        callBack(responseJson);
-                    }
-                }else{
-                    alert("错误码：" + responseJson.error.code + "，错误信息" + responseJson.error.message, 5, "error");
-                    if (callBack) {
-                        callBack(responseJson);
-                    }
-                }
-            }
-        }
-    });
-    return result;
 }
