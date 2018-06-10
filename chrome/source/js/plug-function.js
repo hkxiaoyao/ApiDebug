@@ -69,7 +69,7 @@ function getHeadersStr(){
 }
 
 function getHeaders(request){
-    if( $("#method").val() == "POST")
+    if( $("#id-method").val() == "POST")
         request.setRequestHeader("Content-Type", $('input:radio[name="param-type"]:checked').val());
 
     var texts = $("#headers-div input[type='text']");
@@ -115,7 +115,7 @@ var originalResponseText = "";
 function callAjax() {
     originalResponseText = "";
     var url = getValue(ID_URL).trim().split("?")[0] + "?";
-    var method = $("#method").val();
+    var method = $("#id-method").val();
     var urlParamsStr = "";
     var params =  getParams();
 
@@ -227,7 +227,7 @@ function callAjax() {
             url = url.substr(0, url.length-1);
         }
 
-        var h  ={"paramType": $("input[name='param-type']:checked").val(), "name": $("#interface-name").val(),"method":method, "url" : url,
+        var h  ={"paramType": $("input[name='param-type']:checked").val(), "name": getValue(ID_INTERFACE_NAME),"method":method, "url" : url,
             "params" : params, "headers": getHeadersStr().replace(/=/g, ":").replace(/&/g,"\n")};
 
         // 如果已经存在则删除
@@ -349,12 +349,13 @@ function saveInterface(moduleId, saveAs) {
 
     // if interfaceId is null, meaning it's a new interface,should create a id
     // if id is not null, but saveAs is true,meaning should create a new interface base on the current interface,so id should be created
-    var id = $("#interface-id").val();
+    var id = getValue(ID_INTERFACE_ID);
+
     if( handerStr(id) == "" || saveAs){
         id = "ffff-"+new Date().getTime() + "-" + random(10);
     }
 
-    var method = $("#method").val();
+    var method = $("#id-method").val();
     var params =  getParams();
 
     // if params submit by form, then should format params, else mean param is custom and nothing need to do
@@ -382,7 +383,7 @@ function saveInterface(moduleId, saveAs) {
 }
 
 function intitSaveInterfaceDialog(){
-    $("#save-interface-name").val($("#interface-name").val());
+    $("#save-interface-name").val(getValue(ID_INTERFACE_NAME));
     // 循环获取所有module
     var modules = getLocalJson(DATA_MODULE);
 
@@ -393,7 +394,7 @@ function intitSaveInterfaceDialog(){
             $("#save-module-id").append("<option value='" + modules[i].moduleId + "'>" + modules[i].moduleName + "</option>");
         }
     }
-    openDialog("Save interface:" + $("#interface-name").val(),500);
+    openDialog("Save interface:" + getValue(ID_INTERFACE_NAME),500);
 }
 
 /****状态码转提示*************/

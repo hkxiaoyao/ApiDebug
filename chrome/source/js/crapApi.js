@@ -18,13 +18,13 @@ $(function(){
     var saveAs = true;
     // 保存
     $("#save-interface").click(function(){
-        if( handerStr($("#interface-id").val()) == "" || handerStr($("#module-id").val())== ""){
+        if( handerStr(getValue(ID_INTERFACE_ID)) == "" || handerStr($("#id-module-id").val())== ""){
             saveAs = false;
             intitSaveInterfaceDialog();
         }else{
             // 直接保存
-            $("#save-interface-name").val($("#interface-name").val());
-            var moduleId = $("#module-id").val();
+            $("#save-interface-name").val(getValue(ID_INTERFACE_NAME));
+            var moduleId = $("#id-module-id").val();
             if( saveInterface(moduleId) ){
                 alert("Success !");
             }
@@ -50,23 +50,23 @@ $(function(){
     $("#history").on("click","div", function() {
         var urlInfo = $.parseJSON( $(this).attr("crap-data") );
         setValue(ID_URL, urlInfo.url);
-        $("#interface-id").val("-1");
-        $("#module-id").val("-1");
-        $("#interface-name").val(handerStr(urlInfo.name));
-        $("#headers-bulk").val(urlInfo.headers);
-        $("#method").val(urlInfo.method);
-        $("#method").change();
+        setValue(ID_INTERFACE_ID, "-1");
+        $("#id-module-id").val("-1");
+        $("#id-interface-name").val(handerStr(urlInfo.name));
+        $("#id-headers-bulk-value").val(urlInfo.headers);
+        $("#id-method").val(urlInfo.method);
+        $("#id-method").change();
 
         if($.inArray(urlInfo.paramType, customerTypes) == -1){
             urlInfo.paramType = "x-www-form-urlencoded;charset=UTF-8";
-            $("#param-type-value").prop("checked",true);
-            $("#params-bulk").val(urlInfo.params);
+            $("#id-param-type").prop("checked",true);
+            $("#id-params-bulk-value").val(urlInfo.params);
             $(".key-value-edit").click();
         }else{
-            $("#customer-type-value").prop("checked",true);
+            $("#id-customer-type").prop("checked",true);
             // 下拉选择 customer-type
-            $("#customer-type").val(urlInfo.paramType);
-            $("#customer-type").change();
+            $("#id-customer-type-select").val(urlInfo.paramType);
+            $("#id-customer-type-select").change();
             $("#customer-value").val(urlInfo.params);
         }
         $("input[name='param-type']").change();
@@ -77,17 +77,17 @@ $(function(){
     });
 
     $("#new-interface").click(function() {
-        $("#interface-name").val("");
-        $("#headers-bulk").val("");
-        $("#params-bulk").val("");
+        $("#id-interface-name").val("");
+        $("#id-headers-bulk-value").val("");
+        $("#id-params-bulk-value").val("");
         setValue(ID_URL, "");
-        $("#interface-id").val("-1");
-        $("#module-id").val("-1");
-        $("#method").val("GET");
-        $("#method").change();
+        setValue(ID_INTERFACE_ID, "-1");
+        $("#id-module-id").val("-1");
+        $("#id-method").val("GET");
+        $("#id-method").change();
 
-        $("#param-type-value").prop("checked",true);
-        $("#params-bulk").val("");
+        $("#id-param-type").prop("checked",true);
+        $("#id-params-bulk-value").val("");
         $(".key-value-edit").click();
         $("input[name='param-type']").change();
 
@@ -259,21 +259,21 @@ $(function(){
 
 
 
-    $("#method").change(function() {
-        if( $("#method").val() == "POST" || $("#method").val() == "PUT"){
-            if($("#content-type").hasClass("none")){
-                $("#content-type").removeClass("none");
+    $("#" + ID_METHOD).change(function() {
+        if( getValue(ID_METHOD) == "POST" || getValue(ID_METHOD) == "PUT"){
+            if($("#" + ID_CONTENT_TYPE).hasClass("none")){
+                $("#" + ID_CONTENT_TYPE).removeClass("none");
             }
         }else{
-            if(!$("#content-type").hasClass("none")){
-                $("#content-type").addClass("none");
+            if(!$("#" + ID_CONTENT_TYPE).hasClass("none")){
+                $("#" + ID_CONTENT_TYPE).addClass("none");
             }
         }
     });
 
     // param-type=customer
-    $("#customer-type").change(function() {
-        $("#customer-type-value").val( $("#customer-type").val() );
+    $("#id-customer-type-select").change(function() {
+        $("#id-customer-type").val( $("#id-customer-type-select").val() );
     });
     // 单选param-type监控
     $("input[name='param-type']").change(function(){

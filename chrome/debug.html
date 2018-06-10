@@ -72,15 +72,15 @@
 			<div class="w h mt10 rel">
 				<!--接口标题-->
 				<div class="mt10 ml10 fb bl3 f14 pl10 tl pr10">
-					<input type="text" class="form-control b0 r2 BGF5 p3 h27" id="interface-name" placeholder="请输入接口名"/>
-					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="interface-id" value="-1"/>
-					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="module-id" value="-1"/>
+					<input type="text" class="form-control b0 r2 BGF5 p3 h27" id="id-interface-name" placeholder="请输入接口名"/>
+					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="id-interface-id" value="-1"/>
+					<input type="hidden" class="form-control b0 r2 BGF5 p3 h27" id="id-module-id" value="-1"/>
 				</div>
 				<!--接口URL-->
 				<table class="w mt10">
 						<tr>
 							<td class="w100 pr10 pl10">
-								<select class="form-control" id="method">
+								<select class="form-control" id="id-method">
 									<option value="GET">GET</option>
 									<option value="POST">POST</option>
 									<option value="PUT">PUT</option>
@@ -147,21 +147,21 @@
 					
 					<div id="headers-bulk-edit-div" class=" f12 none">
 							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-header-or-param="headers">Key-Value Edit</a>
-							<textarea id="headers-bulk" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
+							<textarea id="id-headers-bulk-value" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
 						</div>
                 </div>
 				<!--请求头-->
 
                 <!--参数-->
                 <div class="bb1" id="params-div">
-                    <div id="content-type" class="f12 p10 C999 pl20 none">
+                    <div id="id-content-type" class="f12 p10 C999 pl20 none">
 						<div class="fl">
-							<input type="radio" name="param-type" checked  id="param-type-value"  value="application/x-www-form-urlencoded;charset=UTF-8"> x-www-form-urlencoded;charset=UTF-8&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="param-type" checked  id="id-param-type"  value="application/x-www-form-urlencoded;charset=UTF-8"> x-www-form-urlencoded;charset=UTF-8&nbsp;&nbsp;&nbsp;
 						</div>
 						<div class="fl">
-							<input type="radio" name="param-type" crap-data="customer" id="customer-type-value" value="application/json"> customer&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="param-type" crap-data="customer" id="id-customer-type" value="application/json"> customer&nbsp;&nbsp;&nbsp;
 						</div>
-						<select class="form-control none w150 fl table-input" id="customer-type">
+						<select class="form-control none w150 fl table-input" id="id-customer-type-select">
 							<option value="application/json">application/json</option>
 							<option value="text/plain">text/plain</option>
 							<option value="application/xml">application/xml</option>
@@ -203,7 +203,7 @@
 
 						<div id="params-bulk-edit-div" class=" f12 none">
 							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-header-or-param="params">Key-Value Edit</a>
-							<textarea id="params-bulk" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
+							<textarea id="id-params-bulk-value" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
 						</div>
                     </div>
                 </div>
@@ -355,6 +355,7 @@
 	<script type="text/javascript" src="source/js/module-dao.js"></script>
 	<script type="text/javascript" src="source/js/plug-function.js"></script>
 	<script type="text/javascript" src="source/js/crapApi.js"></script>
+	<script type="text/javascript" src="source/js/adapter.js"></script>
 	<script type="text/javascript" src="source/others/jquery.jsonview.js"></script>
 	<script type="text/javascript" src="source/js/json.js"></script>
 	<script type="text/javascript" src="source/others/jquery-ui.min.js"></script>

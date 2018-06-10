@@ -66,6 +66,16 @@ var ID_TIP = "id-tip";
 var ID_MODULE_INTERFACE = "id-module-interface-";
 var ID_MODULE = "id-module-";
 var ID_URL = "id-url";
+var ID_INTERFACE_ID = "id-interface-id";
+var ID_INTERFACE_NAME = "id-interface-name";
+var ID_MODULE_ID = "id-module-id";
+var ID_HEADERS_BULK_VALUE = "id-headers-bulk-value";
+var ID_METHOD = "id-method";
+var ID_PARAM_TYPE = "id-param-type";
+var ID_PARAMS_BULK_VALUE = "id-params-bulk-value";
+var ID_CUSTOMER_TYPE = "id-customer-type";
+var ID_CONTENT_TYPE = "id-content-type";
+var ID_CUSTOMER_TYPE_SELECT = "id-customer-type-select";
 
 /************* attr ***************/
 var BASE_ATTR_PRE = "crap-data-";

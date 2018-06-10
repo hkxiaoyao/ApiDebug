@@ -61,6 +61,9 @@ function getJson(str, def) {
     }
     return $.parseJSON(str);
 }
+function prop(id) {
+    $("#" + id).prop("checked",true);
+}
 /*********存储数据至本地***********/
 function saveLocalData(key,value){
     try{

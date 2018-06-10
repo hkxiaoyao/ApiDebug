@@ -53,60 +53,33 @@ $("#modules").on("click",".panel-heading", function() {
 
 // 点击接口，渲染接口数据
 $("#modules").on("click",".interface", function() {
+
     var interfaceId = $(this).attr(ATTR_INTERFACE_ID);
-    var interfaceInfo = interfacesMap[interfaceId] ;
-    var paramStr = interfaceInfo.param;
+    var inter = getInterface(interfacesMap[interfaceId]);
 
-    // 服务器端参数和插件参数相互转换
-    var isForm = (!paramStr || paramStr.indexOf("form=") >= 0);
-    if (isForm){
-        var paramArray = getJson(paramStr.replace("form=", ""), "[]")
-        var bulkParams = "";
-        for(var i=0; i<paramArray.length; i++){
-           // TODO  interfaceInfo.fullUrl = interfaceInfo.fullUrl.replace("{", )
-            var p = paramArray[i].name + ":" + paramArray[i].def;
-            if( p != ":"){
-                bulkParams += p + "\n";
-            }
-        }
-        paramStr = bulkParams;
-    }
+    setValue(ID_URL, inter.url);
+    setValue(ID_INTERFACE_ID, inter.id)
+    setValue(ID_MODULE_ID, inter.moduleId)
+    setValue(ID_INTERFACE_ID, handerStr(inter.name));
+    setValue(ID_HEADERS_BULK_VALUE, inter.headers);
+    setValue(ID_METHOD, inter.method);
 
-    // 服务器请求头和插件请求头互相转换
-    var headerArray = getJson(interfaceInfo.header, "[]");
-    var headerStr = "";
-    for(var i=0; i<headerArray.length; i++){
-        var p = headerArray[i].name + ":" + headerArray[i].def;
-        if( p != ":"){
-            headerStr += p + "\n";
-        }
-    }
-
-    setValue(ID_URL, interfaceInfo.fullUrl);
-    $("#interface-id").val(interfaceInfo.id);
-    $("#module-id").val(interfaceInfo.moduleId);
-    $("#interface-name").val(handerStr(interfaceInfo.interfaceName));
-    $("#headers-bulk").val(headerStr);
-    $("#method").val(interfaceInfo.method);
-    $("#method").change();
+    $("#" + ID_METHOD).change();
 
     // TODO 服务器支持paramType 存储
-    var paramType = (isForm ? "x-www-form-urlencoded;charset=UTF-8" : "application/json");
-
     // key-value键值对输入方法
-    if($.inArray(paramType, customerTypes) == -1){
-        interfaceInfo.paramType = paramType;
+    if($.inArray(inter.paramType, customerTypes) == -1){
         // 选中参数输入table
-        $("#param-type-value").prop("checked",true);
-        $("#params-bulk").val(paramStr);
+        prop(ID_PARAM_TYPE);
+        setValue(ID_PARAMS_BULK_VALUE, inter.params);
         $(".key-value-edit").click();
     }
     // 自定义参数输入
     else{
-        $("#customer-type-value").prop("checked",true);
-        // 下拉选择 customer-type
-        $("#customer-type").val(interfaceInfo.paramType);
-        $("#customer-type").change();
+        prop(ID_CUSTOMER_TYPE);
+        // 下拉选择 id-customer-type-select
+        $("#" + ID_CUSTOMER_TYPE_SELECT).val(inter.paramType);
+        $("#" + ID_CUSTOMER_TYPE_SELECT).change();
         $("#customer-value").val(paramStr);
     }
     $("input[name='param-type']").change();
@@ -153,15 +126,17 @@ $(".bulk-edit").click(function(){
 // key-value编辑
 $(".key-value-edit").click(function(){
     var preId = $(this).attr(ATTR_HEADER_OR_PARAM);
+    var bulkParams = "";
     if( preId == "headers"){
         showBulkHeaders = false;
+        bulkParams = getValue(ID_HEADERS_BULK_VALUE);
     }
     if( preId == "params"){
         showBulkParams = false;
+        bulkParams = getValue(ID_PARAMS_BULK_VALUE);
     }
     $("#"+preId+"-table").removeClass("none");
     $("#"+preId+"-bulk-edit-div").addClass("none");
-    var bulkParams = $("#"+preId+"-bulk").val();
     var params = bulkParams.split("\n");
     $("#"+preId+"-table tbody").empty();
     for(var i=0 ; i< params.length; i++){
