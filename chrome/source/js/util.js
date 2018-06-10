@@ -46,6 +46,21 @@ function getAttr(id, name) {
 function setAttr(id, name, value) {
     $("#" + id).attr(name, value);
 }
+function getValue(id) {
+    return $("#" + id).val();
+}
+function setValue(id, val) {
+    $("#" + id).val(val);
+}
+function getJson(str, def) {
+    if (!str){
+        if (def){
+            return $.parseJSON(def);
+        }
+        return null;
+    }
+    return $.parseJSON(str);
+}
 /*********存储数据至本地***********/
 function saveLocalData(key,value){
     try{

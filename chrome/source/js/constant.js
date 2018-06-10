@@ -23,13 +23,13 @@ moduleDiv += "          <div id='id-module-interface-ca_moduleId' class='panel-b
 moduleDiv += "       </div>";
 moduleDiv += "   </div>";
 
-var interfaceDiv = "<div crap-data='ca_id' class='interface pl30 pr20 rel' title='ca_name'>";
+var interfaceDiv = "<div crap-data-interface-id='ca_id' class='interface pl30 pr20 rel' title='ca_name'>";
 interfaceDiv += "		<i class='iconfont ca_method'>ca_methodIcon</i>&nbsp;&nbsp;ca_name";
 interfaceDiv += "		<span class='more'>";
 interfaceDiv += "			<i class='iconfont fr'>&#xe642;</i>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu delete-interface' crap-data='ca_moduleId|ca_id'>&#xe60e;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu down-interface' crap-data='ca_moduleId|ca_id'>&#xe624;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu up-interface' crap-data='ca_moduleId|ca_id'>&#xe623;</i></span>";
+interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu delete-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe60e;</i></span>";
+interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu down-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe624;</i></span>";
+interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu up-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe623;</i></span>";
 interfaceDiv += "		</span>";
 interfaceDiv += "	</div>";
 
@@ -65,6 +65,7 @@ var ID_FLOAT = "id-float";
 var ID_TIP = "id-tip";
 var ID_MODULE_INTERFACE = "id-module-interface-";
 var ID_MODULE = "id-module-";
+var ID_URL = "id-url";
 
 /************* attr ***************/
 var BASE_ATTR_PRE = "crap-data-";
@@ -72,3 +73,5 @@ var ATTR_PROJECT_ID = BASE_ATTR_PRE + "project-id";
 var ATTR_PROJECT_NAME = BASE_ATTR_PRE + "project-name";
 var ATTR_HAS_LOAD_INTERFACE = BASE_ATTR_PRE + "has-load-interface";
 var ATTR_MODULE_ID = BASE_ATTR_PRE + "module-id";
+var ATTR_INTERFACE_ID = BASE_ATTR_PRE + "interface-id";
+var ATTR_HEADER_OR_PARAM = BASE_ATTR_PRE + "header-or-param";

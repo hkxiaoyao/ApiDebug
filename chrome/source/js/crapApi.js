@@ -47,39 +47,9 @@ $(function(){
     });
 
 
-    $("#modules").on("click",".interface", function() {
-        var interfaceId = $(this).attr("crap-data");
-        var urlInfo = interfacesMap[interfaceId] ;
-        $("#url").val(urlInfo.fullUrl);
-        $("#interface-id").val(urlInfo.id);
-        $("#module-id").val(urlInfo.moduleId);
-        $("#interface-name").val(handerStr(urlInfo.interfaceName));
-        $("#headers-bulk").val(urlInfo.headers);
-        $("#method").val(urlInfo.method);
-        $("#method").change();
-
-        if($.inArray(urlInfo.paramType, customerTypes) == -1){
-            urlInfo.paramType = "x-www-form-urlencoded;charset=UTF-8";
-            $("#param-type-value").prop("checked",true);
-            $("#params-bulk").val(urlInfo.params);
-            $(".key-value-edit").click();
-        }else{
-            $("#customer-type-value").prop("checked",true);
-            // 下拉选择 customer-type
-            $("#customer-type").val(urlInfo.paramType);
-            $("#customer-type").change();
-            $("#customer-value").val(urlInfo.params);
-        }
-        $("input[name='param-type']").change();
-
-        $(".interface").removeClass("bg-main");
-        $(this).addClass("bg-main");
-
-    });
-
     $("#history").on("click","div", function() {
         var urlInfo = $.parseJSON( $(this).attr("crap-data") );
-        $("#url").val(urlInfo.url);
+        setValue(ID_URL, urlInfo.url);
         $("#interface-id").val("-1");
         $("#module-id").val("-1");
         $("#interface-name").val(handerStr(urlInfo.name));
@@ -110,7 +80,7 @@ $(function(){
         $("#interface-name").val("");
         $("#headers-bulk").val("");
         $("#params-bulk").val("");
-        $("#url").val("");
+        setValue(ID_URL, "");
         $("#interface-id").val("-1");
         $("#module-id").val("-1");
         $("#method").val("GET");
@@ -219,75 +189,6 @@ $(function(){
               tr.removeClass("last");
           }
       }
-    });
-
-	// 当前是否显示批量编辑
-	var showBulkParams = false;
-	var showBulkHeaders = false;
-	
-	// 批量编辑
-	$(".bulk-edit").click(function(){
-       var preId = $(this).attr("crap-data-value");
-	   if( preId == "headers"){
-		   showBulkHeaders = true;
-	   }
-	   if( preId == "params"){
-			showBulkParams = true;
-	   }
-	   $("#"+preId+"-table").addClass("none");
-	   $("#"+preId+"-bulk-edit-div").removeClass("none");
-	    var bulkParams = "";
-	    var texts = $("#"+preId+"-div input[type='text']");
-		// 获取所有文本框
-		var key = "";
-		$.each(texts, function(i, val) {
-			   try {
-				   if(val.getAttribute("data-stage") == "value"){
-					   var p = key+":" + val.value;
-					   if( p != ":"){
-						   bulkParams += p + "\n";
-					   }	
-				   }else if(val.getAttribute("data-stage") == "key"){
-						key = val.value;
-				   }
-			   } catch (ex) { }
-		});
-		$("#"+preId+"-bulk").val(bulkParams);
-    });
-	
-	// key-value编辑
-	$(".key-value-edit").click(function(){
-       var preId = $(this).attr("crap-data-value");
-	   if( preId == "headers"){
-		   showBulkHeaders = false;
-	   }
-	   if( preId == "params"){
-			showBulkParams = false;
-	   }
-	   $("#"+preId+"-table").removeClass("none");
-	   $("#"+preId+"-bulk-edit-div").addClass("none");
-	    var bulkParams = $("#"+preId+"-bulk").val();
-		var params = bulkParams.split("\n");
-		$("#"+preId+"-table tbody").empty();
-	    for(var i=0 ; i< params.length; i++){
-			if( params[i].trim() != ""){
-				var p = params[i].split(":");
-				if(p.length>2){
-                    for(var j=2 ; j< p.length; j++){
-                        p[1] = p[1] +":" + p[j];
-                    }
-                }
-				var key = p[0];
-				var value = "";
-				if(p.length >1 ){
-					value = p[1];
-				}
-				var tdText = paramsTr.replace("'key'","'key' value='"+key+"'").replace("'value'","'value' value='"+value+"'");
-				tdText = tdText.replace("last","");
-				$("#"+preId+"-table tbody").append(tdText);
-			}
-		}
-		$("#"+preId+"-table tbody").append(paramsTr);
     });
 	
 	$("#format-row").click(function(){

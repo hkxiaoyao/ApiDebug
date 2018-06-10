@@ -89,7 +89,7 @@
 							</td>
 							<td class="pr10">
 								<div class="input-group">
-								  <input type="text" class="form-control" id="url" placeholder="Enter request URL">
+								  <input type="text" class="form-control" id="id-url" placeholder="Enter request URL">
 								  <span class="input-group-addon cursor btn-main" id="send"><i class="iconfont">&#xe634;</i> 发送请求</span>
 								</div>
 							</td>
@@ -110,8 +110,12 @@
 
 				<!--接口请求头、参数等切换标签-->
 				<div class="h30 mt10 shadow-b pl10 C555">
-					<div class="params-title menu-title" data-stage="headers-div">Headers</div>
-                    <div class="params-title menu-title bb3" data-stage="params-div">Params</div>
+					<div class="params-title menu-title" data-stage="headers-div">
+						请求头信息 <a class="cursor C999" target="_blank" href=""><i class="iconfont">&#xe63e;</i></a>
+					</div>
+                    <div class="params-title menu-title bb3" data-stage="params-div">
+						请求参数 <a class="cursor C999" target="_blank" href=""><i class="iconfont">&#xe63e;</i></a>
+					</div>
 				</div>
 
                 <!--请求头-->
@@ -124,7 +128,7 @@
 								</td>
 								<td class="p5" colspan="2">
 									 Value
-									 <a class="bulk-edit fr mr20 color-main cursor" crap-data-value="headers">Bulk Edit</a>
+									 <a class="bulk-edit fr mr20 color-main cursor" crap-data-header-or-param="headers">Bulk Edit</a>
 								</td>
 							</tr>
 						</thead>
@@ -142,7 +146,7 @@
                     </table>
 					
 					<div id="headers-bulk-edit-div" class=" f12 none">
-							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-value="headers">Key-Value Edit</a>
+							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-header-or-param="headers">Key-Value Edit</a>
 							<textarea id="headers-bulk" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
 						</div>
                 </div>
@@ -176,7 +180,7 @@
 									</td>
 									<td class="p5" colspan="2">
 										 Value
-										 <a class="bulk-edit fr mr20 color-main cursor" crap-data-value="params">Bulk Edit</a>
+										 <a class="bulk-edit fr mr20 color-main cursor" crap-data-header-or-param="params">Bulk Edit</a>
 									</td>
 								</tr>
 							</thead>
@@ -198,7 +202,7 @@
 						</div>
 
 						<div id="params-bulk-edit-div" class=" f12 none">
-							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-value="params">Key-Value Edit</a>
+							<a class="key-value-edit fr  mr20 color-main cursor fb" crap-data-header-or-param="params">Key-Value Edit</a>
 							<textarea id="params-bulk" class="form-control w BGFFF min-h100 max-w" placeholder="key:value"></textarea>
 						</div>
                     </div>
@@ -209,8 +213,8 @@
 				<!--response-title-->
                 <div class="bb1 h30 mt10 shadow-b pl10 C555 mb10">
                     <div class="mt10 f14 tl w">
-						<div class="response-title menu-title bb3" data-stage="response-body">Body</div>
-						<div class="response-title menu-title" data-stage="response-header">Headers</div>
+						<div class="response-title menu-title bb3" data-stage="response-body">响应主体</div>
+						<div class="response-title menu-title" data-stage="response-header">响应头</div>
 						<div class="response-title menu-title" data-stage="response-cookie">Cookie</div>
 						<div class="cb"></div>
 					</div>

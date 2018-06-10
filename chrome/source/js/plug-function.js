@@ -114,14 +114,14 @@ function getParams(){
 var originalResponseText = "";
 function callAjax() {
     originalResponseText = "";
-    var url = $("#url").val().trim().split("?")[0] + "?";
+    var url = getValue(ID_URL).trim().split("?")[0] + "?";
     var method = $("#method").val();
     var urlParamsStr = "";
     var params =  getParams();
 
     // 表单参数优先url参数
-    if( $("#url").val().indexOf("?") > 0){
-        urlParamsStr = $("#url").val().split("?")[1];
+    if( getValue(ID_URL).indexOf("?") > 0){
+        urlParamsStr = getValue(ID_URL).split("?")[1];
         var urlParams = urlParamsStr.split("&");
         for(var i=0; i<urlParams.length; i++ ){
             if( urlParams[i] != "" && urlParams[i].indexOf("=") > 0){
@@ -213,7 +213,7 @@ function callAjax() {
         }else{
             url = (url +"&"+ params).replace("&&", '&').replace("?&", '?');
         }
-        $("#url").val(url);
+        setValue(ID_URL, url);
     }
 
     // 记录历史
@@ -323,7 +323,7 @@ function saveModule(moduleName, moduleId,status) {
 
 // save interface and module
 function saveInterface(moduleId, saveAs) {
-    if( handerStr($("#url").val()) == ""){
+    if( handerStr(getValue(ID_URL)) == ""){
         alert("Url can not be null");
         return false;
     }
@@ -375,7 +375,7 @@ function saveInterface(moduleId, saveAs) {
     }
 
     var name = $("#save-interface-name").val();
-    var url = $("#url").val();
+    var url = getValue(ID_URL);
     daoSaveInterface(moduleId, paramType, id, name, method, url, params, headers, 0, 1);
     closeMyDialog("dialog");
     return true;
