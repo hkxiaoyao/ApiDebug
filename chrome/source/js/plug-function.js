@@ -451,13 +451,15 @@ function alert(tipMessage, tipTime, isSuccess, width){
 }
 
 /************************覆盖弹框**************************************/
-function tip(response, tipTime){
+function tip(response, tipTime, successMessage){
     var isSuccess = response.success;
 
-    var tipMessage = "";
+    var tipMessage = successMessage;
     if (isSuccess == 1 || isSuccess == "success"){
         isSuccess = "success";
-        tipMessage = "操作成功！";
+        if (!successMessage) {
+            tipMessage = "操作成功！";
+        }
     }else {
         isSuccess = "error";
         tipMessage = "错误信息:" + response.error.message;

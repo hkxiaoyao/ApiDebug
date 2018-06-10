@@ -31,7 +31,7 @@ function setHtml(id, html) {
 function showDiv(id) {
     $("#" + id).removeClass("ndis");
 }
-function hidenDiv(id) {
+function hiddenDiv(id) {
     $("#" + id).addClass("ndis");
 }
 function fadeIn(id, time) {
@@ -40,7 +40,12 @@ function fadeIn(id, time) {
 function fadeOut(id, time) {
     $("#" + id).fadeOut(time);
 }
-
+function getAttr(id, name) {
+    return $("#" + id).attr(name);
+}
+function setAttr(id, name, value) {
+    $("#" + id).attr(name, value);
+}
 /*********存储数据至本地***********/
 function saveLocalData(key,value){
     try{
@@ -63,7 +68,7 @@ function saveLocalJson(key,value){
 }
 
 /********* http *******/
-function httpPost(url, myData, myAsync, callBack){
+function httpPost(url, myData, myAsync, callBack, callBackParams){
     var result;
     $.ajax({
         type: "POST",
@@ -84,7 +89,7 @@ function httpPost(url, myData, myAsync, callBack){
                 var responseJson = $.parseJSON(responseData.responseText);
                 result = responseJson;
                 if (callBack) {
-                    callBack(responseJson);
+                    callBack(responseJson, callBackParams);
                 }
             }
         }
