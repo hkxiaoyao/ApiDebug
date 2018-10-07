@@ -62,6 +62,7 @@ $("#modules").on("click",".interface", function() {
     setValue(ID_MODULE_ID, inter.moduleId)
     setValue(ID_INTERFACE_ID, handerStr(inter.name));
     setValue(ID_HEADERS_BULK_VALUE, inter.headers);
+
     setValue(ID_METHOD, inter.method);
 
     $("#" + ID_METHOD).change();
@@ -80,7 +81,7 @@ $("#modules").on("click",".interface", function() {
         // 下拉选择 id-customer-type-select
         $("#" + ID_CUSTOMER_TYPE_SELECT).val(inter.paramType);
         $("#" + ID_CUSTOMER_TYPE_SELECT).change();
-        $("#customer-value").val(paramStr);
+        $("#customer-value").val(inter.params);
     }
     $("input[name='param-type']").change();
 

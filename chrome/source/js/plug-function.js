@@ -69,8 +69,9 @@ function getHeadersStr(){
 }
 
 function getHeaders(request){
-    if( $("#id-method").val() == "POST")
+    if( $("#id-method").val() == "POST") {
         request.setRequestHeader("Content-Type", $('input:radio[name="param-type"]:checked').val());
+    }
 
     var texts = $("#headers-div input[type='text']");
     // 获取所有文本框
