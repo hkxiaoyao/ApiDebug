@@ -52,15 +52,7 @@ function getValue(id) {
 function setValue(id, val) {
     $("#" + id).val(val);
 }
-function getJson(str, def) {
-    if (!str){
-        if (def){
-            return $.parseJSON(def);
-        }
-        return null;
-    }
-    return $.parseJSON(str);
-}
+
 function prop(id) {
     $("#" + id).prop("checked",true);
 }
@@ -68,16 +60,6 @@ function prop(id) {
 function saveLocalData(key,value){
     try{
         localStorage[key] = value;
-        return true;
-    }catch(e){
-        console.error(e);
-        return false;
-    }
-}
-
-function saveLocalJson(key,value){
-    try{
-        localStorage[key] = JSON.stringify(value);
         return true;
     }catch(e){
         console.error(e);
@@ -113,4 +95,15 @@ function httpPost(url, myData, myAsync, callBack, callBackParams){
         }
     });
     return result;
+}
+function jsonFormat(txt, tiperror){
+    try {
+        var txtObj = JSON.parse(txt);
+        return JSON.stringify(txtObj, null, 5);
+    }catch (e){
+        if (tiperror){
+            alert("格式化异常，请检查json格式是否有误" + e);
+        }
+        return txt;
+    }
 }

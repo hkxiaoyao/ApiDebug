@@ -12,7 +12,7 @@
 <body>
 	<div class="h40 CFFF pl20 w shadow fixed z10" style="background:#233050;">
 		<a href="http://api.crap.cn/index.do#/web/article/detail/web/PAGE/APIDEBUG" target="_blank">
-			<img src="http://api.crap.cn/resources/images/logo.png" class="h30 mt4 ml10 fl">
+			<img src="logo.png" class="h30 mt4 ml10 fl">
 		</a>
 		<button class="btn btn-menu btn-sm fl mr10 cursor ml20" id="left-enlarge">
 			菜单 &nbsp;<div class="fr mt-1"><i class="iconfont">&#xe605;</i></div>
@@ -20,12 +20,10 @@
 
         <div class="fl mr10 mt5 ml20 ndis f12 pt5 adorn-color" id="id-user-name"></div>
 
-		<!--<a href="more.html" target="_blank" class="btn btn-menu btn-sm fr mr10 mt5">More...</a>-->
         <a id="id-login" href="http://api.crap.cn/loginOrRegister.do#/login" target="_blank" class="btn btn-menu btn-sm fr mr10">登录</a>
         <a id="id-logout" href="#" class="btn btn-menu btn-sm fr mr10">注销</a>
 		<a href="json.html" target="_blank" class="btn btn-menu btn-sm fr mr10">Json工具</a>
 		<a href="debug.html" target="_blank" class="btn btn-menu btn-sm fr mr10">打开新窗口</a>
-		<a id="new-interface" target="_blank" class="btn btn-menu btn-sm fr mr10">创建新接口</a>
 
 		<div class="btn-group fr mr10">
 			<button type="button" class="btn btn-menu btn-sm" id="id-refresh-project">
@@ -91,18 +89,6 @@
 								<div class="input-group">
 								  <input type="text" class="form-control" id="id-url" placeholder="Enter request URL">
 								  <span class="input-group-addon cursor btn-main" id="send"><i class="iconfont">&#xe634;</i> 发送请求</span>
-								</div>
-							</td>
-							<td class="tr w100">
-								<div class="btn-group w">
-								  <button type="button" class="btn btn-main" id="save-interface">保存</button>
-								  <button type="button" class="btn btn-main dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								  </button>
-								  <ul class="dropdown-menu min-w80">
-									<li><a id="save-as-interface" class="pl10 pr10 cursor">另存为</a></li>
-								  </ul>
 								</div>
 							</td>
 						</tr>
@@ -289,60 +275,7 @@
 	</div>
 	<div class="alert-div" id="alert-div"></div>
 	<div id="fade" class="folat"></div>
-	<div id="dialog" class="look-up shadow">
-		<div id="dialog-title" class="CFFF f16 shadow dialog-title">
-		</div>
-		<div id="dialog-content" class="look-up-content b0 f12 tl p30 BGFFF C555">
-			<table class="table table-bordered">
-				<tr>
-					<td>接口名</td>
-					<td>
-						<input class="form-control" id="save-interface-name" placeholder="请输入接口名称"/>
-					</td>
-				</tr>
-				<tr>
-					<td>Module</td>
-					<td>
-						Save to existion module/folder
-						<select class="form-control" id="save-module-id">
 
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Module Name</td>
-					<td>
-						Or create new module/folder
-						<input class="form-control" id="save-module-name" placeholder="Click input module name"/>
-					</td>
-				</tr>
-
-			</table>
-			<button type="button" class="btn btn-main fr" id="save-interface-submit">Save</button>
-
-		</div>
-		<i class="iconfont i-close CFFF fb f16 close-dialog" crap-data="dialog">&#xe615;</i>
-	</div>
-	<div id="dialog2" class="look-up shadow">
-		<div class="CFFF f16 shadow" style="line-height:40px;padding-left:20px; height:40px; background-color:#233050;">
-			Rename module
-		</div>
-		<div class="look-up-content b0 f12 tl p30 BGFFF C555">
-			<table class="table table-bordered">
-				<tr>
-					<td>Module Name</td>
-					<td>
-						<input class="form-control" id="rename-module-id" type="hidden"/>
-						<input class="form-control" id="rename-module-name" placeholder="Click input module name"/>
-					</td>
-				</tr>
-
-			</table>
-			<button type="button" class="btn btn-main fr" id="save-module-submit">Save</button>
-
-		</div>
-		<i class="iconfont i-close CFFF fb f16 close-dialog" crap-data="dialog2">&#xe615;</i>
-	</div>
 
 	<script type="text/javascript" src="source/others/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="source/others/bootstrap.js"></script>
@@ -357,7 +290,6 @@
 	<script type="text/javascript" src="source/js/crapApi.js"></script>
 	<script type="text/javascript" src="source/js/adapter.js"></script>
 	<script type="text/javascript" src="source/others/jquery.jsonview.js"></script>
-	<script type="text/javascript" src="source/js/json.js"></script>
 	<script type="text/javascript" src="source/others/jquery-ui.min.js"></script>
 
 	<script type="text/javascript" src="source/js/debug.js"></script>

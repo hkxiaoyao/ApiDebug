@@ -55,7 +55,7 @@ $("#modules").on("click",".panel-heading", function() {
 $("#modules").on("click",".interface", function() {
 
     var interfaceId = $(this).attr(ATTR_INTERFACE_ID);
-    var inter = getInterface(interfacesMap[interfaceId]);
+    var inter = adapterGetInterface(getInterfaceDAO(interfaceId));
 
     setValue(ID_URL, inter.url);
     setValue(ID_INTERFACE_ID, inter.id)

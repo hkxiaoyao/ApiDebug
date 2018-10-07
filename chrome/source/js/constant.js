@@ -9,13 +9,6 @@ var moduleDiv = "<div class='panel panel-info no-radius b0 mt0 left-menu-border-
 moduleDiv += "      <div class='panel-heading no-radius rel' data-parent='#modules' crap-data-module-id='ca_moduleId'>";
 moduleDiv += "          <div class='cursor' data-toggle='collapse' data-parent='#modules' href='#id-panel-ca_moduleId'>";
 moduleDiv += "              <i class='iconfont color-main f16'>&#xe628;</i>&nbsp;&nbsp;  ca_moduleName";
-moduleDiv += "		        <span class='more'>";
-moduleDiv += "			        <i class='iconfont fr h lh40'>&#xe642;</i>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu rename-module mt0 lh40 fr' crap-data='ca_moduleId'>&#xe618;</i></span>";
-moduleDiv += "	                <span class='t0 h'><i class='iconfont interface-menu delete-module mt0 lh40 fr' crap-data='ca_moduleId'>&#xe60e;</i></span>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu down-module  mt0 lh40 fr' crap-data='ca_moduleId'>&#xe624;</i></span>";
-moduleDiv += "			        <span class='t0 h'><i class='iconfont interface-menu up-module  mt0 lh40 fr' crap-data='ca_moduleId'>&#xe623;</i></span>";
-moduleDiv += "		        </span>";
 moduleDiv += "          </div>";
 moduleDiv += "      </div>";
 moduleDiv += "      <div id='id-panel-ca_moduleId' class='panel-collapse BGEEE collapse out'>";
@@ -25,12 +18,6 @@ moduleDiv += "   </div>";
 
 var interfaceDiv = "<div crap-data-interface-id='ca_id' class='interface pl30 pr20 rel' title='ca_name'>";
 interfaceDiv += "		<i class='iconfont ca_method'>ca_methodIcon</i>&nbsp;&nbsp;ca_name";
-interfaceDiv += "		<span class='more'>";
-interfaceDiv += "			<i class='iconfont fr'>&#xe642;</i>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu delete-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe60e;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu down-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe624;</i></span>";
-interfaceDiv += "			<span class='t0 h'><i class='iconfont interface-menu up-interface' crap-data-module-id='ca_moduleId' crap-data-interface-id='ca_id'>&#xe623;</i></span>";
-interfaceDiv += "		</span>";
 interfaceDiv += "	</div>";
 
 var project_list_div = "<li><a href='javascript:void(0)' class='pl10 pr10'>切换项目</a></li>";
@@ -48,10 +35,11 @@ var DATA_DEF_PROJECT_ID = BASE_PRE + "default_project_id"; // 默认项目ID
 var DATA_DEF_PROJECT_NAME = BASE_PRE + "default_project_name"; // 默认项目名称
 
 /*********** 服务器接口地址 **************/
-var WEB_SITE_URL = "http://localhost:8080/api";
+var WEB_SITE_URL = "http://api.crap.cn";
 var MY_PROJECT_URL = WEB_SITE_URL + "/user/project/list.do";
 var MY_MODULE_URL = WEB_SITE_URL + "/user/module/list.do";
-var MY_INTERFACE_URL = WEB_SITE_URL + "/user/interface/list.do";
+var MY_INTERFACE_LIST_URL = WEB_SITE_URL + "/user/interface/list.do";
+var MY_INTERFACE_DETAIL_URL = WEB_SITE_URL + "/user/interface/detail.do";
 var INIT_URL = WEB_SITE_URL + "/back/init.do";
 var LOGOUT_URL = WEB_SITE_URL + "/back/loginOut.do";
 

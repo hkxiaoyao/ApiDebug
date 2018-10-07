@@ -15,37 +15,6 @@ $(function(){
         $(this).addClass("bb3");
     });
 
-    var saveAs = true;
-    // 保存
-    $("#save-interface").click(function(){
-        if( handerStr(getValue(ID_INTERFACE_ID)) == "" || handerStr($("#id-module-id").val())== ""){
-            saveAs = false;
-            intitSaveInterfaceDialog();
-        }else{
-            // 直接保存
-            $("#save-interface-name").val(getValue(ID_INTERFACE_NAME));
-            var moduleId = $("#id-module-id").val();
-            if( saveInterface(moduleId) ){
-                alert("Success !");
-            }
-        }
-    });
-
-    // 另存为
-    $("#save-as-interface").click(function(){
-        saveAs = true;
-        intitSaveInterfaceDialog();
-    });
-
-    $("#save-interface-submit").click(function(){
-        saveInterface("", saveAs);
-    });
-
-    $(".close-dialog").click(function(){
-        var id = $(this).attr("crap-data");
-        closeMyDialog(id);
-    });
-
 
     $("#history").on("click","div", function() {
         var urlInfo = $.parseJSON( $(this).attr("crap-data") );
@@ -76,87 +45,6 @@ $(function(){
         $(this).addClass("bg-main");
     });
 
-    $("#new-interface").click(function() {
-        $("#id-interface-name").val("");
-        $("#id-headers-bulk-value").val("");
-        $("#id-params-bulk-value").val("");
-        setValue(ID_URL, "");
-        setValue(ID_INTERFACE_ID, "-1");
-        $("#id-module-id").val("-1");
-        $("#id-method").val("GET");
-        $("#id-method").change();
-
-        $("#id-param-type").prop("checked",true);
-        $("#id-params-bulk-value").val("");
-        $(".key-value-edit").click();
-        $("input[name='param-type']").change();
-
-        $(".interface").removeClass("bg-main");
-        $(".history-div").removeClass("bg-main");
-    });
-    $("#save-module-submit").click(function() {
-       if($("#rename-module-name").val() == ""){
-           alert("Module name can not be empty!", 5, "error", 300);
-           return false;
-       }
-        renameModule( $("#rename-module-id").val(), $("#rename-module-name").val());
-        closeMyDialog("dialog2");
-    });
-
-    /******删除接口*********/
-	$("#modules").on("click",".delete-interface", function() {
-        if(!myConfirm("Are you sure you want to delete? 「确定要删除吗」"))
-        {
-            return false;
-        }
-        var ids = $(this).attr("crap-data").split("|");
-        daoDeleteInterface(ids[0],ids[1]);
-		return false;// 不在传递至父容器
-    });
-    /*******上移接口**********/
-    $("#modules").on("click",".up-interface", function() {
-        var ids = $(this).attr("crap-data").split("|");
-        daoUpInterface(ids[0],ids[1]);
-        return false;// 不在传递至父容器
-    });
-    /*******下移接口**********/
-    $("#modules").on("click",".down-interface", function() {
-        var ids = $(this).attr("crap-data").split("|");
-        daoDownInterface(ids[0],ids[1]);
-        return false;// 不在传递至父容器
-    });
-
-    $("#modules").on("click",".delete-module", function() {
-        if(!myConfirm("Are you sure you want to delete? 「确定要删除吗」"))
-        {
-            return false;
-        }
-        var moduleId = $(this).attr("crap-data");
-        deleteModule(moduleId);
-        return false;// 不在传递至父容器
-    });
-    /*******上移**********/
-    $("#modules").on("click",".up-module", function() {
-        var moduleId = $(this).attr("crap-data");
-        upModule(moduleId);
-        return false;// 不在传递至父容器
-    });
-    /*******下移**********/
-    $("#modules").on("click",".down-module", function() {
-        var moduleId = $(this).attr("crap-data");
-        downModule(moduleId);
-        return false;// 不在传递至父容器
-    });
-
-    $("#modules").on("click",".rename-module", function() {
-        var moduleId = $(this).attr("crap-data");
-        $("#rename-module-id").val(moduleId);
-        lookUp('dialog2', '', '', 400 ,7,'');
-        $("#dialog-content").css("max-height",($(document).height()*0.8)+'px');
-        showMessage('dialog2','false',false,-1);
-        showMessage('fade','false',false,-1);
-        return false;// 不在传递至父容器
-    });
 
 
     $("#left-enlarge").click(function(){

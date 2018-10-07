@@ -1,17 +1,15 @@
-function getInterface(interfaceInfo) {
+function adapterGetInterface(interfaceInfo) {
     if (!interfaceInfo){
         return getNewInterface();
     }
-
+    interfaceInfo = interfaceInfo.data;
     var paramStr = interfaceInfo.param;
     // 服务器端参数和插件参数相互转换
-    var isForm = (!paramStr || paramStr.indexOf("form=") >= 0);
-    if (isForm){
-        var paramArray = getJson(paramStr.replace("form=", ""), "[]")
+    if (interfaceInfo.paramType == 'FORM'){
+        var paramArray = interfaceInfo.crShowParamList;
         var bulkParams = "";
         for(var i=0; i<paramArray.length; i++){
-            // TODO  interfaceInfo.fullUrl = interfaceInfo.fullUrl.replace("{", )
-            var p = paramArray[i].name + ":" + paramArray[i].def;
+            var p = paramArray[i].realName + ":" + paramArray[i].def;
             if( p != ":"){
                 bulkParams += p + "\n";
             }
@@ -20,17 +18,17 @@ function getInterface(interfaceInfo) {
     }
 
     // 服务器请求头和插件请求头互相转换
-    var headerArray = getJson(interfaceInfo.header, "[]");
+    var headerArray = interfaceInfo.crShowHeaderList;
     var headerStr = "";
     for(var i=0; i<headerArray.length; i++){
-        var p = headerArray[i].name + ":" + headerArray[i].def;
+        var p = headerArray[i].realName + ":" + headerArray[i].def;
         if( p != ":"){
             headerStr += p + "\n";
         }
     }
 
     // TODO 服务器支持paramType 存储
-    var paramType = (isForm ? "x-www-form-urlencoded;charset=UTF-8" : "application/json");
+    var paramType = (interfaceInfo.paramType == 'FORM' ? "x-www-form-urlencoded;charset=UTF-8" : "application/json");
 
     return {
         "paramType": paramType,
