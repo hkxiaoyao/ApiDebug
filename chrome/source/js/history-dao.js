@@ -5,9 +5,9 @@ function daoDrawHistory(){
     for(var i=0 ; i<historyArray.length; i++){
         var title =  historyArray[i].name;
         if( handerStr(title) == ""){
-            title = handerStr(history[i].url);
+            title = handerStr(historyArray[i].url);
         }
-        historyText += "<div class='history-div' crap-data='"+JSON.stringify(history[i])+"'>" + title +"</div>";
+        historyText += "<div class='history-div' crap-data='"+JSON.stringify(historyArray[i])+"'>" + title +"</div>";
     }
     $("#history").html(historyText);
 }

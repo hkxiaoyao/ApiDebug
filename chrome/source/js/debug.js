@@ -60,10 +60,15 @@ $("#modules").on("click",".interface", function() {
     setValue(ID_URL, inter.url);
     setValue(ID_INTERFACE_ID, inter.id)
     setValue(ID_MODULE_ID, inter.moduleId)
-    setValue(ID_INTERFACE_ID, handerStr(inter.name));
+    setValue(ID_INTERFACE_NAME, handerStr(inter.name));
     setValue(ID_HEADERS_BULK_VALUE, inter.headers);
-
-    setValue(ID_METHOD, inter.method);
+    if (inter.method.indexOf("POST") >= 0){
+        setValue(ID_METHOD, 'POST');
+    }else if (inter.method.indexOf("GET") >= 0){
+        setValue(ID_METHOD, 'GET');
+    }else{
+        setValue(ID_METHOD, inter.method);
+    }
 
     $("#" + ID_METHOD).change();
 
