@@ -1,6 +1,6 @@
 $(function(){
     // drawModuleDAO();
-
+    hasInstallPlug = true;
     $("#history-title").click(function(){
         $("#history").removeClass("none");
         $("#modules").addClass("none");

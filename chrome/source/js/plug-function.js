@@ -120,7 +120,7 @@ function getParams(){
             alert(ex);
         }
     });
-    return (data.length > 0 ? data.substr(1) : data);;
+    return (data.length > 0 ? data.substr(1) : data);
 }
 
 function getPramsInUrl(params) {
@@ -200,7 +200,7 @@ function callAjax() {
                 }
 
                 try {
-                    $.parseJSON( data );
+                    data = $.parseJSON( data );
                     $("#json-expand").click();
                 } catch (e) {
                     $("#format-row").click();
