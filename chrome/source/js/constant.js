@@ -40,8 +40,8 @@ var MY_PROJECT_URL = WEB_SITE_URL + "/user/project/list.do";
 var MY_MODULE_URL = WEB_SITE_URL + "/user/module/list.do";
 var MY_INTERFACE_LIST_URL = WEB_SITE_URL + "/user/interface/list.do";
 var MY_INTERFACE_DETAIL_URL = WEB_SITE_URL + "/user/interface/detail.do";
-var INIT_URL = WEB_SITE_URL + "/back/init.do";
-var LOGOUT_URL = WEB_SITE_URL + "/back/loginOut.do";
+var INIT_URL = WEB_SITE_URL + "/admin/init.do";
+var LOGOUT_URL = WEB_SITE_URL + "/user/loginOut.do";
 
 /************** html id *****************/
 var ID_DEF_PROJECT_NAME = "id-def-project-name";

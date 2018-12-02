@@ -53,7 +53,6 @@ $("#modules").on("click",".panel-heading", function() {
 
 // 点击接口，渲染接口数据
 $("#modules").on("click",".interface", function() {
-
     var interfaceId = $(this).attr(ATTR_INTERFACE_ID);
     var inter = adapterGetInterface(getInterfaceDAO(interfaceId));
 
@@ -61,7 +60,6 @@ $("#modules").on("click",".interface", function() {
     setValue(ID_INTERFACE_ID, inter.id)
     setValue(ID_MODULE_ID, inter.moduleId)
     setValue(ID_INTERFACE_NAME, handerStr(inter.name));
-    setValue(ID_HEADERS_BULK_VALUE, inter.headers);
     if (inter.method.indexOf("POST") >= 0){
         setValue(ID_METHOD, 'POST');
     }else if (inter.method.indexOf("GET") >= 0){
@@ -71,14 +69,13 @@ $("#modules").on("click",".interface", function() {
     }
 
     $("#" + ID_METHOD).change();
-
     // TODO 服务器支持paramType 存储
     // key-value键值对输入方法
     if($.inArray(inter.paramType, customerTypes) == -1){
         // 选中参数输入table
         prop(ID_PARAM_TYPE);
         setValue(ID_PARAMS_BULK_VALUE, inter.params);
-        $(".key-value-edit").click();
+        $("#params-bulk-edit-div .key-value-edit").click();
     }
     // 自定义参数输入
     else{
@@ -88,6 +85,8 @@ $("#modules").on("click",".interface", function() {
         $("#" + ID_CUSTOMER_TYPE_SELECT).change();
         $("#customer-value").val(inter.params);
     }
+    setValue(ID_HEADERS_BULK_VALUE, inter.headers);
+    $("#headers-bulk-edit-div .key-value-edit").click();
     $("input[name='param-type']").change();
 
     $(".interface").removeClass("bg-main");

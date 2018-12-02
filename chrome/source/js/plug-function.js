@@ -1,4 +1,11 @@
 var leftEnlarge = true;
+
+function hasConsumer() {
+    if( getValue(ID_METHOD) == "POST" || getValue(ID_METHOD) == "PUT"){
+        return true;
+    }
+    return false;
+}
 function formatJson(){
     var rowData = originalResponseText;
     if( rowData == ""){
@@ -89,6 +96,10 @@ function getHeaders(request){
     });
 }
 
+/**
+ * 返回形式：xxx=11&xx=333
+ * @returns {string}
+ */
 function getParams(){
     var texts = $("#params-div input[type='text']");
     var data = "";
@@ -109,39 +120,37 @@ function getParams(){
             alert(ex);
         }
     });
-    return data;
+    return (data.length > 0 ? data.substr(1) : data);;
 }
 
-var originalResponseText = "";
-function callAjax() {
-    originalResponseText = "";
-    var url = getValue(ID_URL).trim().split("?")[0] + "?";
-    var method = $("#id-method").val();
+function getPramsInUrl(params) {
     var urlParamsStr = "";
-    var params =  getParams();
-
-    // 表单参数优先url参数
+    params = "&" + params;
+    // 表单参数优先url参数，post中没有的才使用url中的参数
     if( getValue(ID_URL).indexOf("?") > 0){
         urlParamsStr = getValue(ID_URL).split("?")[1];
         var urlParams = urlParamsStr.split("&");
         for(var i=0; i<urlParams.length; i++ ){
             if( urlParams[i] != "" && urlParams[i].indexOf("=") > 0){
                 if(params.indexOf("&" + urlParams[i].split("=")[0]) < 0){
-                    url += "&" + urlParams[i];
+                    params += (params.length > 1 ? "&" + urlParams[i] : urlParams[i]);
                 }
             }
         }
     }
-    if(  $.inArray($('input:radio[name="param-type"]:checked').val(), customerTypes) == -1) {
-        params = (params.length > 0 ? params.substr(1) : params);
-    }else{
+    return params.substr(1);
+}
+var originalResponseText = "";
+function callAjax() {
+    originalResponseText = "";
+    var url = getValue(ID_URL).trim().split("?")[0];
+    var method = getValue(ID_METHOD);
+    var params =  getPramsInUrl(getParams());
+    // 自定义参数
+    if(hasConsumer && $.inArray($('input:radio[name="param-type"]:checked').val(), customerTypes) != -1){
         params = $("#customer-value").val();
     }
 
-    url = url.replace("?&", '?');
-    if( url.endWith("?")){
-        url = url.substr(0 - url.length-1);
-    }
     $("#float").fadeIn(300);
     $.ajax({
         type : method,
@@ -203,18 +212,9 @@ function callAjax() {
             $("#float").fadeOut(300);
         }
     });
-    if(url.indexOf("?") < 0){
-        url += "?";
-    }
+
     if( method == "GET"){
-        if(params.trim() == ""){
-            if(url.endWith("?") || url.endWith("&") ){
-                url = url.substr(0, url.length-1);
-            }
-        }else{
-            url = (url +"&"+ params).replace("&&", '&').replace("?&", '?');
-        }
-        setValue(ID_URL, url);
+        setValue(ID_URL, params.trim() != "" ? url + "?" + params : url);
     }
 
     // 记录历史
@@ -222,10 +222,6 @@ function callAjax() {
         var history = getLocalJson(DATA_HISTORY);
         if(  $.inArray($('input:radio[name="param-type"]:checked').val(), customerTypes) == -1) {
             params = params.replace(/=/g, ":").replace(/&/g,"\n");
-        }
-
-        if( url.endWith("?")){
-            url = url.substr(0, url.length-1);
         }
 
         var h  ={"paramType": $("input[name='param-type']:checked").val(), "name": getValue(ID_INTERFACE_NAME),"method":method, "url" : url,

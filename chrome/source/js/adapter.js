@@ -20,15 +20,20 @@ function adapterGetInterface(interfaceInfo) {
     // 服务器请求头和插件请求头互相转换
     var headerArray = interfaceInfo.crShowHeaderList;
     var headerStr = "";
+    var paramType = (interfaceInfo.paramType == 'FORM' ? "x-www-form-urlencoded;charset=UTF-8" : "application/json");
     for(var i=0; i<headerArray.length; i++){
         var p = headerArray[i].realName + ":" + headerArray[i].def;
         if( p != ":"){
+            // TODO 服务器支持paramType 存储
+            // 取请求头中的 content-type
+            if (interfaceInfo.paramType != 'FORM' && headerArray[i].realName.toUpperCase() == 'CONTENT-TYPE' &&
+                $.inArray(headerArray[i].def, customerTypes) != -1){
+                paramType = headerArray[i].def;
+            }
             headerStr += p + "\n";
         }
     }
 
-    // TODO 服务器支持paramType 存储
-    var paramType = (interfaceInfo.paramType == 'FORM' ? "x-www-form-urlencoded;charset=UTF-8" : "application/json");
 
     return {
         "paramType": paramType,

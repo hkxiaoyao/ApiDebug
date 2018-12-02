@@ -146,9 +146,8 @@ $(function(){
     });
 
 
-
     $("#" + ID_METHOD).change(function() {
-        if( getValue(ID_METHOD) == "POST" || getValue(ID_METHOD) == "PUT"){
+        if(hasConsumer()){
             if($("#" + ID_CONTENT_TYPE).hasClass("none")){
                 $("#" + ID_CONTENT_TYPE).removeClass("none");
             }
@@ -156,6 +155,8 @@ $(function(){
             if(!$("#" + ID_CONTENT_TYPE).hasClass("none")){
                 $("#" + ID_CONTENT_TYPE).addClass("none");
             }
+            $("#id-param-type").prop("checked",true);
+            $("input[name='param-type']").change();
         }
     });
 
@@ -170,10 +171,12 @@ $(function(){
             $("#customer-type").removeClass("none")
             $("#params-table").addClass("none");
             $("#customer-div").removeClass("none");
+            $("#id-customer-type-select").removeClass("none");
         }else{
             $("#customer-type").addClass("none");
             $("#customer-div").addClass("none");
             $("#params-table").removeClass("none");
+            $("#id-customer-type-select").addClass("none");
         }
     });
 
